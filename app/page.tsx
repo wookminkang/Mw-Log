@@ -1,11 +1,7 @@
-import Image from "next/image";
-import AboutPage from "./about/page";
-import { Button } from "@/components/ui/";
+import Image from "next/image"
+import AboutPage from "./about/page"
+import { Main } from "@/components/pages/Main"
 
 export default function Home() {
-  return (
-    <>
-      <Button>Click me</Button>
-    </>
-  );
+  return <Main />
 }
