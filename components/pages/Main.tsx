@@ -1,14 +1,14 @@
 import { AppSidebar } from "@/components/common"
 import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
+import { MainContentsCard } from "@/components/ui/MainContentsCard"
 import Link from "next/link"
 import supabase from "@/lib/supabaseClient"
 async function Main() {
-  const { data, error } = await supabase
+  const { data: list, error } = await supabase
     .from("topic")
     .select("*")
     .eq("status", "publish")
     .eq("isView", true)
-  console.log(`data`, data)
 
   return (
     <main className="w-full h-full min-h-[720px] flex flex-col lg:flex-row p-6 gap-6">
@@ -27,10 +27,12 @@ async function Main() {
             </div>
           </div>
 
-          {data?.length && data?.length > 1 ? (
+          {list?.length && list?.length > 1 ? (
             <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
-              {data?.map((item) => (
-                <Link href={`/board/${item.id}`} key={item.id}></Link>
+              {list?.map((item) => (
+                <Link href={`/board/${item.id}`} key={item.id}>
+                  <MainContentsCard data={item} />
+                </Link>
               ))}
             </div>
           ) : (
