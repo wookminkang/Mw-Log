@@ -3,10 +3,21 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import supabase from "@/lib/supabaseClient"
 
-async function BoardDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params
+async function BoardDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
 
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+  const { data, error } = await supabase
+    .from("topic")
+    .select("*")
+    .eq("status", "publish")
+    .eq("id", id)
+    .eq("isView", true)
+
+  console.log(`data`, data)
 
   return (
     <main className="relative w-full h-full min-h-[720px] flex flex-col">

@@ -1,7 +1,15 @@
 import { AppSidebar } from "@/components/common"
 import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
 import Link from "next/link"
-function Main() {
+import supabase from "@/lib/supabaseClient"
+async function Main() {
+  const { data, error } = await supabase
+    .from("topic")
+    .select("*")
+    .eq("status", "publish")
+    .eq("isView", true)
+  console.log(`data`, data)
+
   return (
     <main className="w-full h-full min-h-[720px] flex flex-col lg:flex-row p-6 gap-6">
       <aside className="lg:min-w-60 lg:w-60 lg:h-full">
@@ -19,20 +27,28 @@ function Main() {
             </div>
           </div>
 
-          <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
-            <Link href="/board/1">
-              <SkeletonMainCard />
-            </Link>
-            <Link href="/board/2">
-              <SkeletonMainCard />
-            </Link>
-            <Link href="/board">
-              <SkeletonMainCard />
-            </Link>
-            <Link href="/board">
-              <SkeletonMainCard />
-            </Link>
-          </div>
+          {data?.length && data?.length > 1 ? (
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
+              {data?.map((item) => (
+                <Link href={`/board/${item.id}`} key={item.id}></Link>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
+              <Link href="/board/1">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board/2">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board">
+                <SkeletonMainCard />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
     </main>
