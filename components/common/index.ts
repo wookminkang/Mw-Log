@@ -1,6 +1,5 @@
+import { AppHeader } from "@/components/common/AppHeader"
+import { AppFooter } from "@/components/common/AppFooter"
+import { AppSidebar } from "@/components/common/AppSidebar"
 
-
-import { AppHeader } from "@/components/common/AppHeader";
-import { AppFooter } from "@/components/common/AppFooter";
-
-export { AppHeader, AppFooter };
+export { AppHeader, AppFooter, AppSidebar }

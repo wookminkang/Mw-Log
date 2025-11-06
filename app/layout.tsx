@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { AppHeader, AppFooter } from "@/components/common"
-import useMenu from "@/hooks/use-menu"
 import Providers from "./providers"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -26,8 +25,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const menu = await useMenu()
-
   return (
     <html lang="ko">
       <body
@@ -36,9 +33,7 @@ export default async function RootLayout({
         <Providers>
           <div className="page">
             <AppHeader />
-            <div className="container">
-              <main className="min-h-[calc(100dvh-120px)]">{children}</main>
-            </div>
+            <div className="container">{children}</div>
             <AppFooter />
           </div>
           <Toaster />

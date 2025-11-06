@@ -1,6 +1,3 @@
-
-
-
 function AppFooter() {
   return (
     <footer className="fixed bottom-0 z-10 w-full border-t bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/40">
@@ -17,4 +14,4 @@ function AppFooter() {
   )
 }
 
-export {AppFooter};
+export { AppFooter }
