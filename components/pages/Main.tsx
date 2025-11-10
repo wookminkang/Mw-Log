@@ -3,12 +3,22 @@ import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
 import { MainContentsCard } from "@/components/ui/MainContentsCard"
 import Link from "next/link"
 import supabase from "@/lib/supabaseClient"
-async function Main() {
-  const { data: list, error } = await supabase
+
+type Props = {
+  category?: string
+}
+
+async function Main({ category }: Props) {
+  let query = supabase
     .from("topic")
     .select("*")
     .eq("status", "publish")
     .eq("isView", true)
+
+  if (category) {
+    query = query.eq("category", category)
+  }
+  const { data: list, error } = await query
 
   return (
     <main className="w-full h-full min-h-[720px] flex flex-col lg:flex-row p-6 gap-6">

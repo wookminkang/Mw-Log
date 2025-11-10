@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import supabase from "@/lib/supabaseClient"
 import dayjs from "dayjs"
+import { AppEditor } from "@/components/common"
 
 interface DATA_TYPE {
   title: string
@@ -16,8 +17,8 @@ interface DATA_TYPE {
   author: string
 }
 
-async function BoardDetailPage({ params }: { params: { id: string } }) {
-  const { id } = await params
+async function BoardDetailPage({ params }: { params?: { id?: string } }) {
+  const id = params?.id
 
   const { data, error } = await supabase
     .from("topic")
@@ -26,15 +27,22 @@ async function BoardDetailPage({ params }: { params: { id: string } }) {
     .eq("id", id)
     .eq("isView", true)
 
+  const testClick = () => {
+    alert("testClick")
+  }
+
   return (
     <main className="relative w-full h-full min-h-[720px] flex flex-col">
       {/* 썸네일 이미지 백그라운드로 적용 */}
-      <div className="relative w-full h-60 md:h-100 bg-cover bg-[50%_35%] bg-accent">
+      <div
+        className="relative w-full h-60 md:h-100 bg-cover bg-[50%_35%] bg-accent"
+        style={{ backgroundImage: `url(${data?.[0]?.thumbnail})` }}
+      >
         {/* 어두운 오버레이 */}
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute top-6 left-6 z-10 flex items-center gap-2">
           <Button variant="outline" size="icon" className="cursor-pointer">
-            <Link href="/">
+            <Link href={`/?category=${data?.[0].category}`}>
               <ArrowLeft />
             </Link>
           </Button>
@@ -59,15 +67,18 @@ async function BoardDetailPage({ params }: { params: { id: string } }) {
       </section>
 
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6 pt-12 pb-6">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6 md:gap-8">
+        <div className="grid grid-cols-1 gap-6 md:gap-8">
           <section className="min-w-0">
             {data?.[0]?.content && (
-              // <AppEditor content={JSON.parse(data?.[0]?.content)} readonly={true} />
-              <>{data?.[0]?.content}</>
+              <AppEditor
+                content={JSON.parse(data?.[0]?.content)}
+                readonly={true}
+              />
             )}
           </section>
-          {/* 우측 사이드바 (md+) */}
-          <aside className="hidden md:block md:sticky md:top-24 space-y-4"></aside>
+
+          {/* 우측 사이드바 (md+)
+          <aside className="hidden md:block md:sticky md:top-24 space-y-4"></aside> */}
 
           {/* 모바일에서는 본문 아래에 위젯 표시 */}
           <aside className="md:hidden space-y-4"></aside>

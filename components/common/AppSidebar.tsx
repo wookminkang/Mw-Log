@@ -3,13 +3,12 @@ import { CLASS_CATEGORY } from "@/constans/ConstansCategory"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "../ui"
 import { useState } from "react"
+import { useSearchParams } from "next/navigation"
+import Link from "next/link"
 
-interface props {
-  category: string
-  onClick: (category: string) => void
-}
-
-function AppSidebar({ category, onClick }: Partial<props>) {
+function AppSidebar() {
+  const searchParams = useSearchParams()
+  const getCategory = searchParams.get("category")
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -35,35 +34,28 @@ function AppSidebar({ category, onClick }: Partial<props>) {
       </div>
 
       {/* 모바일: 조건부 표시, 데스크톱: 항상 표시 */}
-      <div
+      <ul
         className={`w-full flex flex-col gap-2 ${
           isExpanded ? "block" : "hidden"
         } lg:block`}
       >
         {CLASS_CATEGORY.map((menu) => {
           return (
-            <Button
-              key={menu.id}
-              variant={"ghost"}
-              className={`flex-1 w-full justify-start cursor-pointer hover:text-foreground hover:!bg-primary hover:pl-6 transition-all duration-500 ${
-                category === menu.category
-                  ? "!text-primary hover:!text-primary-foreground"
-                  : ""
-              }`}
-              onClick={() => {
-                onClick(menu.category)
-                // 모바일에서 카테고리 선택 시 자동으로 접기
-                if (window.innerWidth < 1024) {
-                  setIsExpanded(false)
-                }
-              }}
-            >
-              {menu.icon}
-              {menu.label}
-            </Button>
+            <Link key={menu.id} href={`/?category=${menu.category}`}>
+              <li>
+                <Button
+                  variant={"ghost"}
+                  className={`flex-1 w-full justify-start cursor-pointer hover:pl-6 hover:text-orange-500 transition-all duration-500 ${
+                    getCategory === menu.category && "text-orange-500"
+                  }`}
+                >
+                  {menu.icon} {menu.label}
+                </Button>
+              </li>
+            </Link>
           )
         })}
-      </div>
+      </ul>
     </aside>
   )
 }

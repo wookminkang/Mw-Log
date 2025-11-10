@@ -1,0 +1,48 @@
+{
+  "store": {
+    "name": "Demo Shop",
+    "currency": "KRW"
+  },
+  "categories": [
+    { "id": "cat-outer", "name": "아우터", "slug": "outer" },
+    { "id": "cat-top", "name": "상의", "slug": "top" },
+    { "id": "cat-bottom", "name": "하의", "slug": "bottom" }
+  ],
+  "products": [
+    {
+      "id": "prod-0001",
+      "title": "베이직 코튼 자켓",
+      "slug": "basic-cotton-jacket",
+      "description": "간절기에 입기 좋은 베이직 코튼 자켓.",
+      "categoryId": "cat-outer",
+      "price": 69000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/jacket-1.jpg", "alt": "자켓 정면" },
+        { "url": "/images/products/jacket-1-2.jpg", "alt": "자켓 후면" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙", "베이지"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["S", "M", "L"] }
+      ],
+      "variants": [
+        {
+          "sku": "JKT-BLK-S",
+          "attributes": { "색상": "블랙", "사이즈": "S" },
+          "price": 69000,
+          "stock": 12
+        },
+        {
+          "sku": "JKT-BEI-M",
+          "attributes": { "색상": "베이지", "사이즈": "M" },
+          "price": 69000,
+          "stock": 7
+        }
+      ],
+      "rating": { "average": 4.6, "count": 87 },
+      "tags": ["봄", "가을", "데일리"],
+      "createdAt": "2025-01-01T09:00:00+09:00"
+    }
+  ]
+}
+

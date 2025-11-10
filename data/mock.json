@@ -1,0 +1,514 @@
+{
+  "store": {
+    "name": "Demo Shop",
+    "currency": "KRW"
+  },
+  "brands": [
+    {
+      "id": "brand-nike",
+      "name": "나이키",
+      "slug": "nike",
+      "categories": [
+        { "id": "nike-top", "name": "상의", "slug": "top" },
+        { "id": "nike-bottom", "name": "하의", "slug": "bottom" },
+        { "id": "nike-shoes", "name": "신발", "slug": "shoes" }
+      ]
+    },
+    {
+      "id": "brand-adidas",
+      "name": "아디다스",
+      "slug": "adidas",
+      "categories": [
+        { "id": "adidas-top", "name": "상의", "slug": "top" },
+        { "id": "adidas-bottom", "name": "하의", "slug": "bottom" },
+        { "id": "adidas-shoes", "name": "신발", "slug": "shoes" }
+      ]
+    },
+    {
+      "id": "brand-callaway",
+      "name": "켈러웨이",
+      "slug": "callaway",
+      "categories": [
+        { "id": "callaway-top", "name": "상의", "slug": "top" },
+        { "id": "callaway-bottom", "name": "하의", "slug": "bottom" },
+        { "id": "callaway-shoes", "name": "신발", "slug": "shoes" }
+      ]
+    },
+    {
+      "id": "brand-ping",
+      "name": "핑",
+      "slug": "ping",
+      "categories": [
+        { "id": "ping-top", "name": "상의", "slug": "top" },
+        { "id": "ping-bottom", "name": "하의", "slug": "bottom" },
+        { "id": "ping-shoes", "name": "신발", "slug": "shoes" }
+      ]
+    },
+    {
+      "id": "brand-taylormade",
+      "name": "테일러메이드",
+      "slug": "taylormade",
+      "categories": [
+        { "id": "taylormade-top", "name": "상의", "slug": "top" },
+        { "id": "taylormade-bottom", "name": "하의", "slug": "bottom" },
+        { "id": "taylormade-shoes", "name": "신발", "slug": "shoes" }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-nike-top-001",
+      "brandId": "brand-nike",
+      "brandCategoryId": "nike-top",
+      "title": "나이키 드라이핏 티셔츠",
+      "slug": "nike-drifit-tee",
+      "description": "뛰어난 흡습속건 기능의 트레이닝 티셔츠.",
+      "price": 39000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/nike-tee.jpg", "alt": "나이키 티셔츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙", "화이트"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["S", "M", "L"] }
+      ],
+      "variants": [
+        {
+          "sku": "NK-TOP-BLK-M",
+          "attributes": { "색상": "블랙", "사이즈": "M" },
+          "price": 39000,
+          "stock": 20
+        }
+      ],
+      "rating": { "average": 4.5, "count": 120 },
+      "createdAt": "2025-01-10T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-nike-bottom-001",
+      "brandId": "brand-nike",
+      "brandCategoryId": "nike-bottom",
+      "title": "나이키 조거 팬츠",
+      "slug": "nike-jogger-pants",
+      "description": "편안한 핏의 데일리 조거 팬츠.",
+      "price": 59000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/nike-pants.jpg", "alt": "나이키 팬츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["그레이", "블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["M", "L", "XL"] }
+      ],
+      "variants": [
+        {
+          "sku": "NK-BTM-GRY-L",
+          "attributes": { "색상": "그레이", "사이즈": "L" },
+          "price": 59000,
+          "stock": 14
+        }
+      ],
+      "rating": { "average": 4.3, "count": 64 },
+      "createdAt": "2025-01-11T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-nike-shoes-001",
+      "brandId": "brand-nike",
+      "brandCategoryId": "nike-shoes",
+      "title": "나이키 에어맥스 90",
+      "slug": "nike-airmax-90",
+      "description": "클래식한 디자인의 데일리 스니커즈.",
+      "price": 129000,
+      "currency": "KRW",
+      "images": [
+        {
+          "url": "/images/products/nike-airmax90.jpg",
+          "alt": "나이키 에어맥스 90"
+        }
+      ],
+      "options": [
+        {
+          "id": "opt-color",
+          "name": "색상",
+          "values": ["화이트/블랙", "블랙/그레이"]
+        },
+        { "id": "opt-size", "name": "사이즈", "values": ["250", "260", "270"] }
+      ],
+      "variants": [
+        {
+          "sku": "NK-SHO-260-WB",
+          "attributes": { "색상": "화이트/블랙", "사이즈": "260" },
+          "price": 129000,
+          "stock": 9
+        }
+      ],
+      "rating": { "average": 4.7, "count": 210 },
+      "createdAt": "2025-01-12T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+
+    {
+      "id": "prod-adidas-top-001",
+      "brandId": "brand-adidas",
+      "brandCategoryId": "adidas-top",
+      "title": "아디다스 로고 티셔츠",
+      "slug": "adidas-logo-tee",
+      "description": "클래식 로고가 돋보이는 코튼 티셔츠.",
+      "price": 35000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/adidas-tee.jpg", "alt": "아디다스 티셔츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["화이트", "블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["S", "M", "L"] }
+      ],
+      "variants": [
+        {
+          "sku": "AD-TOP-WHT-M",
+          "attributes": { "색상": "화이트", "사이즈": "M" },
+          "price": 35000,
+          "stock": 30
+        }
+      ],
+      "rating": { "average": 4.4, "count": 80 },
+      "createdAt": "2025-01-13T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-adidas-bottom-001",
+      "brandId": "brand-adidas",
+      "brandCategoryId": "adidas-bottom",
+      "title": "아디다스 트레이닝 팬츠",
+      "slug": "adidas-training-pants",
+      "description": "운동과 일상 모두에 어울리는 팬츠.",
+      "price": 54000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/adidas-pants.jpg", "alt": "아디다스 팬츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["M", "L", "XL"] }
+      ],
+      "variants": [
+        {
+          "sku": "AD-BTM-BLK-L",
+          "attributes": { "색상": "블랙", "사이즈": "L" },
+          "price": 54000,
+          "stock": 18
+        }
+      ],
+      "rating": { "average": 4.1, "count": 42 },
+      "createdAt": "2025-01-14T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-adidas-shoes-001",
+      "brandId": "brand-adidas",
+      "brandCategoryId": "adidas-shoes",
+      "title": "아디다스 울트라부스트",
+      "slug": "adidas-ultraboost",
+      "description": "쿠셔닝과 반발력이 좋은 러닝화.",
+      "price": 159000,
+      "currency": "KRW",
+      "images": [
+        {
+          "url": "/images/products/adidas-ultraboost.jpg",
+          "alt": "울트라부스트"
+        }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙", "그레이"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["255", "265", "275"] }
+      ],
+      "variants": [
+        {
+          "sku": "AD-SHO-265-BLK",
+          "attributes": { "색상": "블랙", "사이즈": "265" },
+          "price": 159000,
+          "stock": 11
+        }
+      ],
+      "rating": { "average": 4.6, "count": 150 },
+      "createdAt": "2025-01-15T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+
+    {
+      "id": "prod-callaway-top-001",
+      "brandId": "brand-callaway",
+      "brandCategoryId": "callaway-top",
+      "title": "켈러웨이 골프 폴로",
+      "slug": "callaway-golf-polo",
+      "description": "통기성이 뛰어난 골프 폴로 셔츠.",
+      "price": 69000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/callaway-polo.jpg", "alt": "켈러웨이 폴로" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["네이비", "화이트"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["95", "100", "105"] }
+      ],
+      "variants": [
+        {
+          "sku": "CW-TOP-100-NVY",
+          "attributes": { "색상": "네이비", "사이즈": "100" },
+          "price": 69000,
+          "stock": 10
+        }
+      ],
+      "rating": { "average": 4.2, "count": 22 },
+      "createdAt": "2025-01-16T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-callaway-bottom-001",
+      "brandId": "brand-callaway",
+      "brandCategoryId": "callaway-bottom",
+      "title": "켈러웨이 골프 팬츠",
+      "slug": "callaway-golf-pants",
+      "description": "스트레치 소재로 활동성이 우수한 팬츠.",
+      "price": 89000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/callaway-pants.jpg", "alt": "켈러웨이 팬츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["차콜"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["30", "32", "34"] }
+      ],
+      "variants": [
+        {
+          "sku": "CW-BTM-32-CHR",
+          "attributes": { "색상": "차콜", "사이즈": "32" },
+          "price": 89000,
+          "stock": 8
+        }
+      ],
+      "rating": { "average": 4.0, "count": 12 },
+      "createdAt": "2025-01-17T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-callaway-shoes-001",
+      "brandId": "brand-callaway",
+      "brandCategoryId": "callaway-shoes",
+      "title": "켈러웨이 골프화",
+      "slug": "callaway-golf-shoes",
+      "description": "안정적인 스윙을 돕는 접지력.",
+      "price": 139000,
+      "currency": "KRW",
+      "images": [
+        {
+          "url": "/images/products/callaway-shoes.jpg",
+          "alt": "켈러웨이 골프화"
+        }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["화이트"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["260", "270", "280"] }
+      ],
+      "variants": [
+        {
+          "sku": "CW-SHO-270-WHT",
+          "attributes": { "색상": "화이트", "사이즈": "270" },
+          "price": 139000,
+          "stock": 6
+        }
+      ],
+      "rating": { "average": 4.3, "count": 18 },
+      "createdAt": "2025-01-18T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+
+    {
+      "id": "prod-ping-top-001",
+      "brandId": "brand-ping",
+      "brandCategoryId": "ping-top",
+      "title": "핑 골프 폴로",
+      "slug": "ping-golf-polo",
+      "description": "흡습성이 좋은 퍼포먼스 폴로.",
+      "price": 65000,
+      "currency": "KRW",
+      "images": [{ "url": "/images/products/ping-polo.jpg", "alt": "핑 폴로" }],
+      "options": [
+        {
+          "id": "opt-color",
+          "name": "색상",
+          "values": ["스카이블루", "네이비"]
+        },
+        { "id": "opt-size", "name": "사이즈", "values": ["95", "100", "105"] }
+      ],
+      "variants": [
+        {
+          "sku": "PG-TOP-100-SKY",
+          "attributes": { "색상": "스카이블루", "사이즈": "100" },
+          "price": 65000,
+          "stock": 13
+        }
+      ],
+      "rating": { "average": 4.1, "count": 14 },
+      "createdAt": "2025-01-19T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-ping-bottom-001",
+      "brandId": "brand-ping",
+      "brandCategoryId": "ping-bottom",
+      "title": "핑 스트레치 팬츠",
+      "slug": "ping-stretch-pants",
+      "description": "신축성이 뛰어나 편안한 착용감.",
+      "price": 84000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/ping-pants.jpg", "alt": "핑 팬츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["30", "32", "34"] }
+      ],
+      "variants": [
+        {
+          "sku": "PG-BTM-32-BLK",
+          "attributes": { "색상": "블랙", "사이즈": "32" },
+          "price": 84000,
+          "stock": 7
+        }
+      ],
+      "rating": { "average": 4.0, "count": 9 },
+      "createdAt": "2025-01-20T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-ping-shoes-001",
+      "brandId": "brand-ping",
+      "brandCategoryId": "ping-shoes",
+      "title": "핑 골프화",
+      "slug": "ping-golf-shoes",
+      "description": "경량 설계로 편안한 라운딩.",
+      "price": 129000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/ping-shoes.jpg", "alt": "핑 골프화" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["화이트/네이비"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["255", "265", "275"] }
+      ],
+      "variants": [
+        {
+          "sku": "PG-SHO-265-WN",
+          "attributes": { "색상": "화이트/네이비", "사이즈": "265" },
+          "price": 129000,
+          "stock": 5
+        }
+      ],
+      "rating": { "average": 4.2, "count": 11 },
+      "createdAt": "2025-01-21T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+
+    {
+      "id": "prod-tm-top-001",
+      "brandId": "brand-taylormade",
+      "brandCategoryId": "taylormade-top",
+      "title": "테일러메이드 폴로",
+      "slug": "taylormade-polo",
+      "description": "클래식 핏의 라운드 폴로.",
+      "price": 72000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/tm-polo.jpg", "alt": "테일러메이드 폴로" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["화이트", "블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["95", "100", "105"] }
+      ],
+      "variants": [
+        {
+          "sku": "TM-TOP-100-WHT",
+          "attributes": { "색상": "화이트", "사이즈": "100" },
+          "price": 72000,
+          "stock": 16
+        }
+      ],
+      "rating": { "average": 4.3, "count": 20 },
+      "createdAt": "2025-01-22T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-tm-bottom-001",
+      "brandId": "brand-taylormade",
+      "brandCategoryId": "taylormade-bottom",
+      "title": "테일러메이드 팬츠",
+      "slug": "taylormade-pants",
+      "description": "슬림 스트레이트 핏 골프 팬츠.",
+      "price": 88000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/tm-pants.jpg", "alt": "테일러메이드 팬츠" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["베이지"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["30", "32", "34"] }
+      ],
+      "variants": [
+        {
+          "sku": "TM-BTM-32-BEI",
+          "attributes": { "색상": "베이지", "사이즈": "32" },
+          "price": 88000,
+          "stock": 12
+        }
+      ],
+      "rating": { "average": 4.1, "count": 13 },
+      "createdAt": "2025-01-23T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    },
+    {
+      "id": "prod-tm-shoes-001",
+      "brandId": "brand-taylormade",
+      "brandCategoryId": "taylormade-shoes",
+      "title": "테일러메이드 골프화",
+      "slug": "taylormade-golf-shoes",
+      "description": "안정적인 스윙을 위한 접지력 강화.",
+      "price": 135000,
+      "currency": "KRW",
+      "images": [
+        { "url": "/images/products/tm-shoes.jpg", "alt": "테일러메이드 골프화" }
+      ],
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["화이트/블랙"] },
+        { "id": "opt-size", "name": "사이즈", "values": ["260", "270", "280"] }
+      ],
+      "variants": [
+        {
+          "sku": "TM-SHO-270-WB",
+          "attributes": { "색상": "화이트/블랙", "사이즈": "270" },
+          "price": 135000,
+          "stock": 10
+        }
+      ],
+      "rating": { "average": 4.4, "count": 24 },
+      "createdAt": "2025-01-24T09:00:00+09:00",
+      "status": "publish",
+      "isView": true
+    }
+  ]
+}
