@@ -510,5 +510,59 @@
       "status": "publish",
       "isView": true
     }
+  ],
+  "users": [
+    {
+      "id": "user-001",
+      "username": "demoUser",
+      "password": "1234",
+      "email": "test@test.com",
+      "phone": "010-1234-5678",
+      "gender": "male",
+      "createdAt": "2025-01-10T09:00:00+09:00",
+      "addresses": [
+        {
+          "id": "addr-001",
+          "label": "기본 배송지",
+          "receiverName": "홍길동",
+          "phone": "010-1234-5678",
+          "zipcode": "06236",
+          "address1": "서울특별시 강남구 테헤란로 123",
+          "address2": "OOO빌딩 10층",
+          "isDefault": true
+        },
+        {
+          "id": "addr-002",
+          "label": "회사",
+          "receiverName": "홍길동",
+          "phone": "010-1234-5678",
+          "zipcode": "04147",
+          "address1": "서울특별시 마포구 마포대로 45",
+          "address2": "XX타워 7층",
+          "isDefault": false
+        }
+      ]
+    },
+    {
+      "id": "user-002",
+      "username": "alice",
+      "password": "Test1234!",
+      "email": "alice@example.com",
+      "phone": "010-9876-5432",
+      "gender": "female",
+      "createdAt": "2025-01-12T09:00:00+09:00",
+      "addresses": [
+        {
+          "id": "addr-101",
+          "label": "집",
+          "receiverName": "김영희",
+          "phone": "010-9876-5432",
+          "zipcode": "13557",
+          "address1": "경기도 성남시 분당구 정자일로 25",
+          "address2": "아파트 101동 1203호",
+          "isDefault": true
+        }
+      ]
+    }
   ]
 }

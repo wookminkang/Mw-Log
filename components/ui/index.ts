@@ -17,6 +17,17 @@ export { Input } from "@/components/ui/input"
 export { Label } from "@/components/ui/label"
 /** Checkbox */
 export { Checkbox } from "@/components/ui/checkbox"
+/** Dialog */
+export {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog"
 /** Tooltip */
 export {
   Tooltip,

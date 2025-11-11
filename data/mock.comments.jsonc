@@ -1,0 +1,125 @@
+{
+  // 스토어 전역 설정
+  "store": {
+    // 상점 이름
+    "name": "Demo Shop",
+    // 결제 통화 (ISO 4217)
+    "currency": "KRW"
+  },
+
+  // 브랜드 목록
+  "brands": [
+    {
+      // 브랜드 고유 ID
+      "id": "brand-nike",
+      // 브랜드 표시 이름(한글)
+      "name": "나이키",
+      // URL용 슬러그
+      "slug": "nike",
+      // 카테고리 배열
+      "categories": [
+        {
+          // 카테고리 고유 ID
+          "id": "nike-top",
+          // 카테고리명
+          "name": "상의",
+          // URL용 슬러그
+          "slug": "top"
+        }
+      ]
+    }
+  ],
+
+  // 상품 목록
+  "products": [
+    {
+      // 상품 고유 ID
+      "id": "prod-nike-top-001",
+      // 소속 브랜드 ID (brands[].id)
+      "brandId": "brand-nike",
+      // 브랜드 내 카테고리 ID
+      "brandCategoryId": "nike-top",
+      // 상품명
+      "title": "나이키 드라이핏 티셔츠",
+      // 상품 슬러그
+      "slug": "nike-drifit-tee",
+      // 상품 설명
+      "description": "뛰어난 흡습속건 기능의 트레이닝 티셔츠.",
+      // 판매가
+      "price": 39000,
+      // 통화
+      "currency": "KRW",
+      // 이미지 배열
+      "images": [
+        { "url": "/images/products/nike-tee.jpg", "alt": "나이키 티셔츠" }
+      ],
+      // 옵션 그룹
+      "options": [
+        { "id": "opt-color", "name": "색상", "values": ["블랙", "화이트"] }
+      ],
+      // 조합(옵션별 SKU)
+      "variants": [
+        {
+          // 재고관리용 SKU
+          "sku": "NK-TOP-BLK-M",
+          // 옵션 속성 조합
+          "attributes": { "색상": "블랙", "사이즈": "M" },
+          // 개별 판매가
+          "price": 39000,
+          // 재고 수량
+          "stock": 20
+        }
+      ],
+      // 사용자 평점
+      "rating": { "average": 4.5, "count": 120 },
+      // 생성일 (ISO8601)
+      "createdAt": "2025-01-10T09:00:00+09:00",
+      // 게시 상태
+      "status": "publish",
+      // 노출 여부
+      "isView": true
+    }
+  ],
+
+  // 사용자 목록
+  "users": [
+    {
+      // 사용자 고유 ID
+      "id": "user-001",
+      // 로그인 아이디
+      "username": "demoUser",
+      // 비밀번호 (데모용 평문. 실제 서비스는 해시 필요)
+      "password": "P@ssw0rd!",
+      // 이메일
+      "email": "demo@example.com",
+      // 휴대폰
+      "phone": "010-1234-5678",
+      // 성별: male | female | other
+      "gender": "male",
+      // 가입일 (ISO8601)
+      "createdAt": "2025-01-10T09:00:00+09:00",
+      // 배송지 리스트
+      "addresses": [
+        {
+          // 배송지 고유 ID
+          "id": "addr-001",
+          // 배송지 라벨(집/회사/기본 등)
+          "label": "기본 배송지",
+          // 수령인 이름
+          "receiverName": "홍길동",
+          // 연락처
+          "phone": "010-1234-5678",
+          // 우편번호
+          "zipcode": "06236",
+          // 도로명 주소
+          "address1": "서울특별시 강남구 테헤란로 123",
+          // 상세 주소
+          "address2": "OOO빌딩 10층",
+          // 기본 배송지 여부
+          "isDefault": true
+        }
+      ]
+    }
+  ]
+}
+

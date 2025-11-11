@@ -51,7 +51,9 @@ export default function BrandCatalogPage({
         {brandCategory?.map((item, index) => {
           return (
             <Link
-              className="px-3 py-1 rounded-md border bg-card text-sm"
+              className={`px-3 py-1 rounded-md border bg-card text-sm ${
+                category === item.slug ? "bg-orange-500 text-white" : ""
+              }`}
               href={`/brands/${brand}?category=${item.slug}`}
               key={index}
             >
