@@ -9,13 +9,6 @@ import {
   Checkbox,
   Input,
   Label,
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
   Separator,
   Table,
   TableBody,
@@ -24,9 +17,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui"
+import AppAddrDialog from "@/components/common/AppAddrDialog"
+import { useState } from "react"
+import mockData from "@/data/mock.json"
+
+type address_type = {
+  id: string
+  userName: string
+  phone: string
+  address1: string
+  address2: string
+  zipcode: string
+  isDefault: boolean
+}
 
 function CheckoutPage() {
-  const hasAddress = false
+  const { users } = mockData
+
+  const [hasAddress, setHasAddress] = useState<boolean>(false)
+
+  const [receiverName, setReceiverName] = useState<string>(
+    users[0].addresses[0].receiverName
+  )
+  const [phone, setPhone] = useState<string>(users[0].addresses[0].phone)
+  const [address1, setAddress1] = useState<string>(
+    users[0].addresses[0].address1
+  )
+  const [address2, setAddress2] = useState<string>(
+    users[0].addresses[0].address2
+  )
+  const [zipcode, setZipcode] = useState<string>(users[0].addresses[0].zipcode)
+  const [isDefault, setIsDefault] = useState<boolean>(
+    users[0].addresses[0].isDefault
+  )
+
+  const addrOnSave = (data: address_type) => {
+    console.log(`data parent`, data)
+    if (data.isDefault) {
+      setReceiverName(data.userName)
+      setPhone(data.phone)
+      setAddress1(data.address1)
+      setAddress2(data.address2)
+      setZipcode(data.zipcode)
+      setIsDefault(data.isDefault)
+    }
+  }
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8">
       <h1 className="text-2xl font-bold">결제</h1>
@@ -34,85 +70,58 @@ function CheckoutPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-          {hasAddress ? (
-            <Card>
-              <CardHeader>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
                 <CardTitle>배송 정보</CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="name">이름</Label>
-                  <Input id="name" placeholder="수령인 이름" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">연락처</Label>
-                  <Input id="phone" placeholder="010-0000-0000" />
-                </div>
-                <div className="col-span-1 sm:col-span-2 space-y-2">
-                  <Label htmlFor="address1">주소</Label>
-                  <Input id="address1" placeholder="도로명 주소" />
-                </div>
-                <div className="col-span-1 sm:col-span-2 space-y-2">
-                  <Label htmlFor="address2">상세 주소</Label>
-                  <Input id="address2" placeholder="동/호수 등" />
-                </div>
-                <div className="col-span-1 sm:col-span-2 flex items-center gap-2 pt-2">
-                  <Checkbox id="save-address" />
-                  <Label htmlFor="save-address">주소를 다음에도 사용</Label>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>배송 정보</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-sm text-muted-foreground">
-                  등록된 배송지가 없습니다. 배송지를 추가해 주세요.
-                </div>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">배송지 추가하기</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>배송지 추가</DialogTitle>
-                      <DialogDescription>
-                        주문을 위한 새로운 배송지를 입력하세요.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="d-name">이름</Label>
-                        <Input id="d-name" placeholder="수령인 이름" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="d-phone">연락처</Label>
-                        <Input id="d-phone" placeholder="010-0000-0000" />
-                      </div>
-                      <div className="col-span-1 sm:col-span-2 space-y-2">
-                        <Label htmlFor="d-address1">주소</Label>
-                        <Input id="d-address1" placeholder="도로명 주소" />
-                      </div>
-                      <div className="col-span-1 sm:col-span-2 space-y-2">
-                        <Label htmlFor="d-address2">상세 주소</Label>
-                        <Input id="d-address2" placeholder="동/호수 등" />
-                      </div>
-                      <div className="col-span-1 sm:col-span-2 flex items-center gap-2 pt-2">
-                        <Checkbox id="d-save" />
-                        <Label htmlFor="d-save">주소를 다음에도 사용</Label>
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button variant="ghost">취소</Button>
-                      <Button>저장</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </CardContent>
-            </Card>
-          )}
+                <AppAddrDialog onSave={addrOnSave}>
+                  <Button variant="outline" size="sm">
+                    배송지 추가하기
+                  </Button>
+                </AppAddrDialog>
+              </div>
+            </CardHeader>
+
+            <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="name">이름</Label>
+                <Input
+                  id="name"
+                  placeholder="수령인 이름"
+                  value={receiverName}
+                  readOnly
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">연락처</Label>
+                <Input
+                  id="phone"
+                  placeholder="010-0000-0000"
+                  value={phone}
+                  readOnly
+                />
+              </div>
+              <div className="col-span-1 sm:col-span-2 space-y-2">
+                <Label htmlFor="address1">주소</Label>
+                <Input
+                  id="address1"
+                  placeholder="도로명 주소"
+                  value={address1}
+                  readOnly
+                />
+              </div>
+              <div className="col-span-1 sm:col-span-2 space-y-2">
+                <Label htmlFor="address2">상세 주소</Label>
+                <Input
+                  id="address2"
+                  placeholder="동/호수 등"
+                  value={address2}
+                  readOnly
+                />
+              </div>
+            </CardContent>
+            <Separator />
+          </Card>
 
           <Card>
             <CardHeader>
