@@ -9,7 +9,17 @@ import { ko } from "date-fns/locale"
 function ReservationGolfPage() {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
-  const [getDate, setGetDate] = useState<any[]>([])
+  type CalendarEntry = {
+    idx: number
+    date: string
+    wclWeek: number
+    golfWorkCode: string
+    displayName: string | null
+    etcCmt: string | null
+    openedCnt: number
+    calendarStatus: string
+  }
+  const [getDate, setGetDate] = useState<CalendarEntry[]>([])
 
   const dateFilter = (date: string, openedCnt: number) => {
     if (date === "CLOSED") {
@@ -26,7 +36,7 @@ function ReservationGolfPage() {
   }
 
   useEffect(() => {
-    const data = [
+    const data: CalendarEntry[] = [
       {
         idx: 36665,
         date: "2025-10-01",
@@ -341,7 +351,7 @@ function ReservationGolfPage() {
     setGetDate(data)
   }, [])
 
-  console.log(`date`, date)
+  console.warn(`date`, date)
 
   return (
     <div>
@@ -360,20 +370,15 @@ function ReservationGolfPage() {
             showOutsideDays={false}
             components={{
               DayButton: ({ children, modifiers, day, ...props }) => {
-                console.log(`day:`, format(day.date, "yyyy-MM-dd"))
+                console.warn(`day:`, format(day.date, "yyyy-MM-dd"))
+                const key = format(day.date, "yyyy-MM-dd")
+                const matched = getDate.find((item) => item.date === key)
+                const status = matched?.calendarStatus ?? ""
+                const opened = matched?.openedCnt ?? 0
                 return (
                   <CalendarDayButton day={day} modifiers={modifiers} {...props}>
                     {children}
-                    <span>
-                      {dateFilter(
-                        getDate.find(
-                          (item) => item.date === format(day.date, "yyyy-MM-dd")
-                        )?.calendarStatus,
-                        getDate.find(
-                          (item) => item.date === format(day.date, "yyyy-MM-dd")
-                        )?.openedCnt
-                      )}
-                    </span>
+                    <span>{dateFilter(status, opened)}</span>
                   </CalendarDayButton>
                 )
               },

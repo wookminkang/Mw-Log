@@ -17,8 +17,12 @@ interface DATA_TYPE {
   author: string
 }
 
-async function BoardDetailPage({ params }: { params?: { id?: string } }) {
-  const id = params?.id
+async function BoardDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
 
   const { data, error } = await supabase
     .from("topic")
@@ -41,11 +45,11 @@ async function BoardDetailPage({ params }: { params?: { id?: string } }) {
         {/* 어두운 오버레이 */}
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute top-6 left-6 z-10 flex items-center gap-2">
-          <Button variant="outline" size="icon" className="cursor-pointer">
-            <Link href={`/?category=${data?.[0].category}`}>
+          <Link href={`/?category=${data?.[0].category}`}>
+            <Button variant="outline" size="icon" className="cursor-pointer">
               <ArrowLeft />
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
         {/* 좌, 우, 하단 그라데이션 */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-transparent to-transparent"></div>

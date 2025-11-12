@@ -14,7 +14,7 @@ import { DialogFooter } from "@/components/ui/dialog"
 import DaumPostcode from "react-daum-postcode"
 
 import { Button } from "@/components/ui/button"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { nanoid } from "nanoid"
 
@@ -50,7 +50,7 @@ function AppAddrDialog({
     setIsDefault(!!value)
   }
 
-  const handleComplete = (data: any) => {
+  const handleComplete = (data: { roadAddress: string; zonecode: string }) => {
     setAddress1(data.roadAddress)
     setZipcode(data.zonecode)
     setIsPostcodeOpen(false)

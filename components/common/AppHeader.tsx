@@ -7,6 +7,9 @@ function AppHeader() {
         <Link href="/" className="text-base font-semibold">
           MINWOOK
         </Link>
+        <Link href="/toto" className="text-base font-semibold">
+          TOTO
+        </Link>
       </div>
     </header>
   )

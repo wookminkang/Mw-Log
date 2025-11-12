@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { CaseSensitive } from "lucide-react"
 import { Separator } from "@/components/ui"
 import dayjs from "dayjs"
@@ -12,10 +12,14 @@ interface props {
   }
 }
 
-function MainContentsCard<T>({ data }: Partial<props>) {
+type RichNode = {
+  content?: Array<{ text?: string }>
+}
+
+function MainContentsCard({ data }: Partial<props>) {
   const setContent = (content: string) => {
     let resultContent = ""
-    JSON.parse(content).forEach((item: any) => {
+    JSON.parse(content).forEach((item: RichNode) => {
       if (item.content !== undefined && Array.isArray(item.content)) {
         const firstContent = item.content[0]
         if (firstContent && "text" in firstContent) {

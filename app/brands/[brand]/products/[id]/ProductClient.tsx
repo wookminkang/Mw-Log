@@ -16,7 +16,7 @@ function ProductClient({ options }: { options: PRODUCT_TYPE["options"] }) {
   const [resultOption, setResultOption] = useState<ResultOptionType[]>([])
 
   const handleOptionChange = (option: string, optionId: string) => {
-    let zz = {
+    const zz = {
       [optionId]: option,
     }
     setResultOption((prev) => {

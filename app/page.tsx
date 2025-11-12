@@ -2,11 +2,11 @@ import Image from "next/image"
 import AboutPage from "./about/page"
 import { Main } from "@/components/pages/Main"
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
-  searchParams?: { category?: string }
+  searchParams: Promise<{ category?: string }>
 }) {
-  const category = searchParams?.category
+  const { category } = await searchParams
   return <Main category={category} />
 }
