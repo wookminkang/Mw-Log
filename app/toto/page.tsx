@@ -1,5 +1,6 @@
 "use client"
 import { useQuery } from "@tanstack/react-query"
+import { getQueryKeys } from "@/api/queryAPI"
 
 function TodoPage() {
   const {
@@ -7,7 +8,7 @@ function TodoPage() {
     isLoading: _isLoading,
     isError: _isError,
   } = useQuery({
-    queryKey: ["todo"],
+    queryKey: getQueryKeys.todo.list(),
     queryFn: async () => {
       const res = await fetch("https://jsonplaceholder.typicode.com/todos/1")
       const data = await res.json()
