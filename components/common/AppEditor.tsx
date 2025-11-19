@@ -1,6 +1,9 @@
 "use client"
+import "@blocknote/core/fonts/inter.css"
 import { useCreateBlockNote } from "@blocknote/react"
 import { BlockNoteView } from "@blocknote/mantine"
+import "@blocknote/mantine/style.css"
+
 import { ko } from "@blocknote/core/locales"
 import type { Block } from "@blocknote/core"
 import { nanoid } from "nanoid"
@@ -66,15 +69,17 @@ function AppEditor({ content, setContent, readonly }: Props) {
 
   // Render the editor
   return (
-    <BlockNoteView
-      editor={editor}
-      editable={!readonly}
-      onChange={() => {
-        if (!readonly) {
-          setContent?.(editor.document)
-        }
-      }}
-    />
+    <div className="bn-editor">
+      <BlockNoteView
+        editor={editor}
+        editable={!readonly}
+        onChange={() => {
+          if (!readonly) {
+            setContent?.(editor.document)
+          }
+        }}
+      />
+    </div>
   )
 }
 
