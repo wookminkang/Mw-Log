@@ -34,14 +34,14 @@ function MainContentsCard({ data }: Partial<props>) {
     <div>
       <Card className="w-full h-fit p-4 gap-4 cursor-pointer hover:bg-muted/15 transition-all duration-300">
         <div className="flex items-start gap-4">
-          <div className="flex-1 flex flex-col items-start gap-4">
+          <div className="flex-1 min-w-0 overflow-hidden flex flex-col items-start gap-4">
             {/* 썸네일과 제목 */}
             <h3 className="h-16 text-base font-semibold tracking-tight line-clamp-2">
               <CaseSensitive size={16} className="text-muted-foreground" />
               <p>{data?.title}</p>
             </h3>
             {/* 본문 */}
-            <p className="line-clamp-3 text-muted-foreground">
+            <p className="line-clamp-3 text-muted-foreground break-words [overflow-wrap:anywhere]">
               {setContent(data?.content || "")}
             </p>
           </div>

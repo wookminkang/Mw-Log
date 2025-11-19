@@ -38,7 +38,7 @@ async function Main({ category }: Props) {
           </div>
 
           {list?.length && list?.length > 1 ? (
-            <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
               {list?.map((item) => (
                 <Link href={`/board/${item.id}`} key={item.id}>
                   <MainContentsCard data={item} />
@@ -46,7 +46,7 @@ async function Main({ category }: Props) {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col min-h-120 md:grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
               <Link href="/board/1">
                 <SkeletonMainCard />
               </Link>
