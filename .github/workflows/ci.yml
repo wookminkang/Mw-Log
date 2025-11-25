@@ -37,6 +37,9 @@ jobs:
       # 6️⃣ 빌드
       - name: Build Next.js app
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
       # 7️⃣ 테스트 (Jest나 Vitest 사용 시)
       - name: Run Tests
