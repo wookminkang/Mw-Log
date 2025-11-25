@@ -23,10 +23,7 @@ const eslintConfig = [
   // 공통적으로 빌드 막는 룰 완화
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
+      "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/exhaustive-deps": "warn",
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "@next/next/no-img-element": "off",
