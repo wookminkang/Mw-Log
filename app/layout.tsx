@@ -20,7 +20,7 @@ export default async function RootLayout({
         <Providers>
           <div className="page">
             <AppHeader />
-            <div className="container">{children}</div>
+              <div className="container">{children}</div>
             <AppFooter />
           </div>
           <Toaster />

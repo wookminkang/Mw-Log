@@ -3,6 +3,8 @@ import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
 import { MainContentsCard } from "@/components/ui/MainContentsCard"
 import Link from "next/link"
 import supabase from "@/lib/supabaseClient"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react"
 
 type Props = {
   category?: string
@@ -37,30 +39,32 @@ async function Main({ category }: Props) {
             </div>
           </div>
 
-          {list?.length && list?.length > 1 ? (
-            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
-              {list?.map((item) => (
-                <Link href={`/board/${item.id}`} key={item.id}>
-                  <MainContentsCard data={item} />
+          <Suspense fallback={<Skeleton className="w-full h-full" />}>
+            {list?.length && list?.length > 1 ? (
+              <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
+                {list?.map((item) => (
+                  <Link href={`/board/${item.id}`} key={item.id}>
+                    <MainContentsCard data={item} />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
+                <Link href="/board/1">
+                  <SkeletonMainCard />
                 </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
-              <Link href="/board/1">
-                <SkeletonMainCard />
-              </Link>
-              <Link href="/board/2">
-                <SkeletonMainCard />
-              </Link>
-              <Link href="/board">
-                <SkeletonMainCard />
-              </Link>
-              <Link href="/board">
-                <SkeletonMainCard />
-              </Link>
-            </div>
-          )}
+                <Link href="/board/2">
+                  <SkeletonMainCard />
+                </Link>
+                <Link href="/board">
+                  <SkeletonMainCard />
+                </Link>
+                <Link href="/board">
+                  <SkeletonMainCard />
+                </Link>
+              </div>
+            )}
+          </Suspense>
         </div>
       </section>
     </main>
