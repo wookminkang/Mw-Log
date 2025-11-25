@@ -25,7 +25,7 @@ const eslintConfig = [
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/exhaustive-deps": "warn",
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-console": ["warn", { allow: ["warn", "error", "log"] }],
       "@next/next/no-img-element": "off",
       "react/no-unescaped-entities": "off",
     },
