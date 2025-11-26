@@ -36,9 +36,9 @@ function MainContentsCard({ data }: Partial<props>) {
         <div className="flex items-start gap-4">
           <div className="flex-1 min-w-0 overflow-hidden flex flex-col items-start gap-4">
             {/* 썸네일과 제목 */}
-            <h3 className="h-16 text-base font-semibold tracking-tight line-clamp-2">
+            <h3 className="text-base font-semibold tracking-tight line-clamp-1">
               <CaseSensitive size={16} className="text-muted-foreground" />
-              <p>{data?.title}</p>
+              <p className="text-xl">{data?.title}</p>
             </h3>
             {/* 본문 */}
             <p className="line-clamp-3 text-muted-foreground break-words [overflow-wrap:anywhere]">

@@ -2,15 +2,17 @@ import { AppSidebar } from "@/components/common"
 import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
 import { MainContentsCard } from "@/components/ui/MainContentsCard"
 import Link from "next/link"
-import supabase from "@/lib/supabaseClient"
+
 import { Skeleton } from "@/components/ui/skeleton"
 import { Suspense } from "react"
+import { createClient } from '@/lib/supabase/server'
 
 type Props = {
   category?: string
 }
 
 async function Main({ category }: Props) {
+  const supabase = await createClient();
   let query = supabase
     .from("topic")
     .select("*")

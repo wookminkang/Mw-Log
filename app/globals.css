@@ -146,14 +146,17 @@
 .page > .container {
   width: 100%;
   max-width: 1328px;
-  padding-top: 68px;
+  padding-top: 48px;
   padding-bottom: 68px;
   flex: 1;
 }
 
 .bn-editor {
   background-color: transparent !important;
-  padding: 24px !important;
+  padding: 24px 16px !important;
+}
+.bn-container .bn-editor {
+  padding: 0 !important;
 }
 
 .bn-editor pre,
@@ -164,7 +167,7 @@
     "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
 }
 .bn-editor [data-content-type="codeBlock"] {
-  padding: 12px !important;
+  padding: 0 !important;
   color: #222222;
 }
 
