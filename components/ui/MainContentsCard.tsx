@@ -34,7 +34,7 @@ function MainContentsCard({ data }: Partial<props>) {
         <div className="flex flex-col md:flex-row items-start gap-4">
           <div className="flex-1 flex flex-col gap-3 w-full md:w-auto">
             {/* 썸네일과 제목 */}
-            <h3 className="text-2xl font-semibold tracking-tight line-clamp-2">
+            <h3 className="text-xl font-bold tracking-tight line-clamp-2">
               {data?.title}
             </h3>
             {/* 본문 */}

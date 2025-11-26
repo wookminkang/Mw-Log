@@ -21,16 +21,16 @@ function AppSidebar() {
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
           카테고리
         </h4>
-        <div className="lg:hidden">
+        {/* <div className="lg:hidden">
           {isExpanded ? (
             <ChevronUp className="mt-1" />
           ) : (
             <ChevronDown className="mt-1" />
           )}
-        </div>
-        <div className="hidden lg:block">
+        </div> */}
+        {/* <div className="hidden lg:block">
           <ChevronDown className="mt-1" />
-        </div>
+        </div> */}
       </div>
 
       {/* 모바일: 조건부 표시, 데스크톱: 항상 표시 */}
