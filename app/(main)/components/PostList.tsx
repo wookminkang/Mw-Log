@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 async function PostList() {
   const supabase = await createClient();
-  let query = supabase
+  const query = supabase
     .from("topic")
     .select("*")
     .eq("status", "publish")
