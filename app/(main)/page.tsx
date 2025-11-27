@@ -1,5 +1,5 @@
-import { Main } from "@/components/pages/Main";
-import { PostList } from "./components";
+import { Suspense } from "react";
+import { PostList, SkeletonPosts } from "./components";
 
 export default function MainHome() {
   return (
@@ -38,7 +38,9 @@ export default function MainHome() {
 
       <section>
         <article>
-          <PostList />
+          <Suspense fallback={<SkeletonPosts />}>
+            <PostList />
+          </Suspense>
         </article>
       </section>
     </>
