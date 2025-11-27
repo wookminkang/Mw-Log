@@ -19,26 +19,23 @@ async function PostList() {
   return (
     <>
       {list?.map((item) => (
-        <Card
-          key={item?.id}
-          className="w-full h-fit p-4 gap-4 cursor-pointer hover:bg-muted/95 transition-all duration-200"
-        >
-          <div className="flex flex-col md:flex-row items-start gap-4">
-            <div className="flex-1 flex flex-col gap-3 w-full md:w-auto">
+        <Card key={item?.id} className="w-full max-w-full">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
               {/* 썸네일과 제목 */}
               <h3 className="text-xl font-bold tracking-tight line-clamp-2">
                 {item?.title}
               </h3>
               {/* 본문 */}
               <p className="line-clamp-3 text-base text-muted-foreground ">
-                {item?.content || ""}
+                {/* {item?.content || ""} */}
               </p>
               <p className="text-md text-muted-foreground">
                 {dayjs(item?.created_at).format("YYYY. MM. DD.")}
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 w-full md:w-auto">
+          <div className="w-[240px] flex-shrink-0">
             {item?.thumbnail ? (
               <Image
                 src={item?.thumbnail}

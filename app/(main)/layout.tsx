@@ -33,7 +33,7 @@ export default function RootLayout({
         <Providers>
           <div className="page">
             <AppHeader />
-            <main className="container">{children}</main>
+            <main className="mx-auto w-full max-w-5xl px-6">{children}</main>
             <AppFooter />
           </div>
           <Toaster />
