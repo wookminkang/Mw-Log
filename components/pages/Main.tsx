@@ -1,15 +1,15 @@
-import { AppSidebar } from "@/components/common"
-import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard"
-import { MainContentsCard } from "@/components/ui/MainContentsCard"
-import Link from "next/link"
+import { AppSidebar } from "@/components/common";
+import { SkeletonMainCard } from "@/components/ui/MainSkeletonCard";
+import { MainContentsCard } from "@/components/ui/MainContentsCard";
+import Link from "next/link";
 
-import { Skeleton } from "@/components/ui/skeleton"
-import { Suspense } from "react"
-import { createClient } from '@/lib/supabase/server'
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
+import { createClient } from "@/lib/supabase/server";
 
 type Props = {
-  category?: string
-}
+  category?: string;
+};
 
 async function Main({ category }: Props) {
   const supabase = await createClient();
@@ -17,12 +17,12 @@ async function Main({ category }: Props) {
     .from("topic")
     .select("*")
     .eq("status", "publish")
-    .eq("isView", true)
+    .eq("isView", true);
 
   if (category) {
-    query = query.eq("category", category)
+    query = query.eq("category", category);
   }
-  const { data: list, error } = await query
+  const { data: list, error } = await query;
 
   return (
     <main className="w-full h-full min-h-[720px] flex flex-col lg:flex-row p-6 gap-6">
@@ -41,36 +41,34 @@ async function Main({ category }: Props) {
             </div>
           </div>
 
-          <Suspense fallback={<Skeleton className="w-full h-full" />}>
-            {list?.length && list?.length > 1 ? (
-              <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
-                {list?.map((item) => (
-                  <Link href={`/board/${item.id}`} key={item.id}>
-                    <MainContentsCard data={item} />
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
-                <Link href="/board/1">
-                  <SkeletonMainCard />
+          {list?.length && list?.length > 1 ? (
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
+              {list?.map((item) => (
+                <Link href={`/board/${item.id}`} key={item.id}>
+                  <MainContentsCard data={item} />
                 </Link>
-                <Link href="/board/2">
-                  <SkeletonMainCard />
-                </Link>
-                <Link href="/board">
-                  <SkeletonMainCard />
-                </Link>
-                <Link href="/board">
-                  <SkeletonMainCard />
-                </Link>
-              </div>
-            )}
-          </Suspense>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col min-h-120 md:grid md:grid-cols-1 gap-6">
+              <Link href="/board/1">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board/2">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board">
+                <SkeletonMainCard />
+              </Link>
+              <Link href="/board">
+                <SkeletonMainCard />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
     </main>
-  )
+  );
 }
 
-export { Main }
+export { Main };

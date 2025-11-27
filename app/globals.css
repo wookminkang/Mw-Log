@@ -145,13 +145,12 @@
 
 .page > .container {
   width: 100%;
-  max-width: 1328px;
-  padding-top: 48px;
+  max-width: 960px;
+  padding-top: 53px;
   padding-bottom: 68px;
   flex: 1;
 }
-
-.bn-editor {
+.page > .container .bn-editor {
   background-color: transparent !important;
   padding: 24px 16px !important;
 }
