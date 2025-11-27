@@ -150,6 +150,12 @@
   padding-bottom: 68px;
   flex: 1;
 }
+
+.page > main {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
 .page > .container .bn-editor {
   background-color: transparent !important;
   padding: 24px 16px !important;

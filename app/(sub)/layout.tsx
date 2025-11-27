@@ -21,7 +21,9 @@ export default function RootLayout({
         <Providers>
           <div className="page">
             <AppHeader />
-            <div className="container">{children}</div>
+            <main className="mx-auto w-full max-w-5xl px-6">
+              <div className="content">{children}</div>
+            </main>
             <AppFooter />
           </div>
           <Toaster />

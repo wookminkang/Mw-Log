@@ -14,8 +14,6 @@ async function PostList() {
 
   const { data: list, error } = await query;
 
-  console.log(`main List =>`, list);
-
   return (
     <>
       {list?.map((item) => (
@@ -28,7 +26,7 @@ async function PostList() {
               </h3>
               {/* 본문 */}
               <p className="line-clamp-3 text-base text-muted-foreground ">
-                {/* {item?.content || ""} */}
+                {item?.content_preview}
               </p>
               <p className="text-md text-muted-foreground">
                 {dayjs(item?.created_at).format("YYYY. MM. DD.")}
