@@ -14,10 +14,7 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
-  // 이미지 최적화
-  images: {
-    formats: ['image/avif', 'image/webp'],
-  },
+  
 }
 
 module.exports = nextConfig
