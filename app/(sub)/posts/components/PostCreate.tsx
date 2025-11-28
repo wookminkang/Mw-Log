@@ -23,8 +23,12 @@ import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import supabase from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores";
 
 function PostCreate() {
+  const user = useAuthStore((state) => state.user);
+  console.log(`user =>`, user);
+
   const [title, setTitle] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | string | null>(null);
@@ -41,9 +45,32 @@ function PostCreate() {
       const fileName = `${nanoid()}.${fileExt}`;
       const filePath = `posts/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from("files")
         .upload(filePath, thumbnail);
+
+      if (uploadError) {
+        console.error("썸네일 업로드 실패:", uploadError);
+        return;
+      }
+
+      let stateThumbnail;
+      const { data: thumbnailData } = await supabase.storage
+        .from("files")
+        .getPublicUrl(filePath);
+      stateThumbnail = thumbnailData.publicUrl;
+      setThumbnail(stateThumbnail);
+
+      const { data, error } = await supabase
+        .from("topic")
+        .insert({
+          title,
+          category,
+          author: user?.id,
+          thumbnail: stateThumbnail,
+          status: "publish",
+        })
+        .select();
     }
   };
 

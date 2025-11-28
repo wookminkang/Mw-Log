@@ -2,7 +2,6 @@ import "@/app/globals.css";
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 import { AppHeader, AppFooter } from "@/components/common";
-import Providers from "../providers";
 import { Toaster } from "@/components/ui/sonner";
 
 const pretendard = localFont({
@@ -30,14 +29,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={pretendard.variable}>
-        <Providers>
-          <div className="page">
-            <AppHeader />
-            <main className="mx-auto w-full max-w-5xl px-2">{children}</main>
-            <AppFooter />
-          </div>
-          <Toaster />
-        </Providers>
+        <div className="page">
+          <AppHeader />
+          <main className="mx-auto w-full max-w-5xl px-2">{children}</main>
+          <AppFooter />
+        </div>
+        <Toaster />
       </body>
     </html>
   );
