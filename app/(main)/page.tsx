@@ -38,7 +38,9 @@ export default function MainHome() {
 
       <section>
         <article>
+          <Suspense fallback={<SkeletonPosts />}>
             <PostList />
+          </Suspense>
         </article>
       </section>
     </>
