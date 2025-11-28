@@ -1,22 +1,22 @@
-"use client"
-import "@blocknote/core/fonts/inter.css"
-import { useCreateBlockNote } from "@blocknote/react"
-import { BlockNoteView } from "@blocknote/mantine"
-import "@blocknote/mantine/style.css"
+"use client";
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
 
-import { ko } from "@blocknote/core/locales"
-import type { Block } from "@blocknote/core"
-import { nanoid } from "nanoid"
-import { useEffect, useRef } from "react"
+import { ko } from "@blocknote/core/locales";
+import type { Block } from "@blocknote/core";
+import { nanoid } from "nanoid";
+import { useEffect, useRef } from "react";
 
 interface Props {
-  content?: Block[]
-  setContent?: (content: Block[]) => void
-  readonly?: boolean
+  content?: Block[];
+  setContent?: (content: Block[]) => void;
+  readonly?: boolean;
 }
 
 function AppEditor({ content, setContent, readonly }: Props) {
-  const pendingFilesRef = useRef<Map<string, File>>(new Map())
+  const pendingFilesRef = useRef<Map<string, File>>(new Map());
   // Create a new editor instance
   const editor = useCreateBlockNote({
     initialContent:
@@ -49,38 +49,39 @@ function AppEditor({ content, setContent, readonly }: Props) {
       },
     },
     uploadFile: async (file: File) => {
-      const blobUrl = URL.createObjectURL(file)
-      pendingFilesRef.current.set(blobUrl, file)
-      return blobUrl // BlockNote가 이 URL을 이미지 src로 사용
+      const blobUrl = URL.createObjectURL(file);
+      pendingFilesRef.current.set(blobUrl, file);
+      return blobUrl; // BlockNote가 이 URL을 이미지 src로 사용
     },
-  })
+  });
 
   useEffect(() => {
     if (content && content.length > 0) {
-      const current = JSON.stringify(editor.document)
-      const next = JSON.stringify(content)
+      const current = JSON.stringify(editor.document);
+      const next = JSON.stringify(content);
 
       // current 값과 next 값이 같으면 교체를 안함 => 무한 루프를 방지하기 위함
       if (current !== next) {
-        editor.replaceBlocks(editor.document, content)
+        editor.replaceBlocks(editor.document, content);
       }
     }
-  }, [content, editor])
+  }, [content, editor]);
 
   // Render the editor
   return (
-    <div className="bn-editor">
+    <div className="mw-editor">
       <BlockNoteView
         editor={editor}
         editable={!readonly}
+        theme="light"
         onChange={() => {
           if (!readonly) {
-            setContent?.(editor.document)
+            setContent?.(editor.document);
           }
         }}
       />
     </div>
-  )
+  );
 }
 
-export { AppEditor }
+export { AppEditor };
