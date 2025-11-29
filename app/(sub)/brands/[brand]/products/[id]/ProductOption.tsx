@@ -1,7 +1,8 @@
 "use client"
 import { useState } from "react"
-import { Separator, Label } from "@/components/ui"
-import { Button } from "@/components/ui"
+import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import type { PRODUCT_TYPE } from "@/types/brands"
 
 function ProductOption({

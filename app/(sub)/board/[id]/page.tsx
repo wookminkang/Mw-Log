@@ -1,12 +1,12 @@
-import { Button, Separator } from "@/components/ui"
+import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import dayjs from "dayjs"
-import { AppEditor } from "@/components/common"
 import type { Metadata } from "next"
 
 import { createClient } from '@/lib/supabase/server'
 import { Editor } from "@/components/common/DynamicEditor"
+import { Separator } from "@/components/ui/separator"
 
 
 interface DATA_TYPE {

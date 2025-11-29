@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { Separator } from "@/components/ui";
+import { Separator } from "@/components/ui/separator";
 
 // PostList를 동적 임포트로 코드 스플리팅 (초기 번들에서 제외)
 const PostList = dynamic(() => import("./components").then((mod) => mod.PostList), {

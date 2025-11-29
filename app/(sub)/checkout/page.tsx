@@ -1,22 +1,13 @@
 "use client"
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Input,
-  Label,
-  Separator,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui"
+
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { CardContent, CardHeader, CardFooter, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import AppAddrDialog from "@/components/common/AppAddrDialog"
 import { useState } from "react"
 import mockData from "@/data/mock.json"

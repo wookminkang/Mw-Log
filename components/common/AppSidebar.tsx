@@ -1,7 +1,7 @@
 "use client"
 import { CLASS_CATEGORY } from "@/constans/ConstansCategory"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { Button } from "../ui"
+import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"

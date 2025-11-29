@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 
-import { Calendar, CalendarDayButton } from "@/components/ui"
+import { Calendar, CalendarDayButton} from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { ko } from "date-fns/locale"
 

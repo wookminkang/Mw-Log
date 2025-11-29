@@ -1,7 +1,6 @@
 "use client"
-import { Button } from "@/components/ui"
+import { Button } from "@/components/ui/button"
 import { ShoppingCart } from "lucide-react"
-import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
 type ResultOptionType = {

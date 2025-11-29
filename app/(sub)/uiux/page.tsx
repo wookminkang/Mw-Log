@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { Separator } from "@/components/ui";
+import { Separator } from "@/components/ui/separator";
 
 // PostList를 동적 임포트로 코드 스플리팅
 const PostList = dynamic(

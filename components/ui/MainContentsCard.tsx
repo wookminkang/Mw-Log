@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui"
+import { Separator } from "@/components/ui/separator"
 import dayjs from "dayjs"
 import Image from "next/image"
 interface props {
