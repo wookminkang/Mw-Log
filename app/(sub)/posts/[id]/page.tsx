@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Editor } from "@/components/common/DynamicEditor";
 import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface PostData {
   title: string;
@@ -159,11 +160,11 @@ async function PostDetailPage({
       {/* Thumbnail */}
       {data.thumbnail && (
         <div className="mb-10 rounded-lg overflow-hidden">
-          <img
+          {/* <Image
             src={data.thumbnail}
             alt={data.title}
             className="w-full h-auto object-cover"
-          />
+          /> */}
         </div>
       )}
 
