@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react"
 
 import { Calendar, CalendarDayButton} from "@/components/ui/calendar"
-import { format } from "date-fns"
-import { ko } from "date-fns/locale"
 
 function ReservationGolfPage() {
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -362,7 +360,7 @@ function ReservationGolfPage() {
 
       <div className="container">
         <div className="flex">
-          <Calendar
+          {/* <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
@@ -370,7 +368,7 @@ function ReservationGolfPage() {
             showOutsideDays={false}
             components={{
               DayButton: ({ children, modifiers, day, ...props }) => {
-                console.warn(`day:`, format(day.date, "yyyy-MM-dd"))
+                
                 const key = format(day.date, "yyyy-MM-dd")
                 const matched = getDate.find((item) => item.date === key)
                 const status = matched?.calendarStatus ?? ""
@@ -386,7 +384,7 @@ function ReservationGolfPage() {
             disabled={{
               before: new Date(),
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
