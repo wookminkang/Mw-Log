@@ -1,116 +1,45 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui";
 
 // PostList를 동적 임포트로 코드 스플리팅
-const PostList = dynamic(() => import("./components").then((mod) => mod.PostList), {
-  loading: () => (
-    <div className="space-y-0">
-      {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index} className="py-8">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
-            <div className="flex-1 min-w-0 w-full md:w-auto space-y-3">
-              <div className="h-5 w-20 bg-muted rounded-md animate-pulse" />
-              <div className="h-7 w-full bg-muted rounded-md animate-pulse" />
-              <div className="h-5 w-2/3 bg-muted rounded-md animate-pulse" />
-              <div className="h-4 w-24 bg-muted rounded-md animate-pulse" />
+const PostList = dynamic(
+  () => import("@/app/(main)/components/PostList").then((mod) => mod.PostList),
+  {
+    loading: () => (
+      <div className="space-y-0">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="py-8">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+              <div className="flex-1 min-w-0 w-full md:w-auto space-y-3">
+                <div className="h-5 w-20 bg-muted rounded-md animate-pulse" />
+                <div className="h-7 w-full bg-muted rounded-md animate-pulse" />
+                <div className="h-5 w-2/3 bg-muted rounded-md animate-pulse" />
+                <div className="h-4 w-24 bg-muted rounded-md animate-pulse" />
+              </div>
+              <div className="w-full md:w-[240px] md:h-[160px] h-[190px] bg-muted rounded-lg animate-pulse" />
             </div>
-            <div className="w-full md:w-[240px] md:h-[160px] h-[190px] bg-muted rounded-lg animate-pulse" />
+            {index < 2 && <div className="border-b border-border mt-8" />}
           </div>
-          {index < 2 && <div className="border-b border-border mt-8" />}
-        </div>
-      ))}
-    </div>
-  ),
-  ssr: true,
-});
-
-const workExperience = [
-  {
-    company: "SmartScore",
-    title: "Web Frontend | 2023.03 - Now",
-  },
-  {
-    company: "Freelancer",
-    title: "(Freelancer) | 2022.05 - 2023.02",
-  },
-  {
-    company: "Kumosol Communication",
-    title: "Web Frontend(Publisher) | 2020.09 - 2022.04",
-  },
-  {
-    company: "Solution Bank",
-    title: "Web Publisher | 2019.08 - 2020.09",
+        ))}
+      </div>
+    ),
+    ssr: true,
   }
-];
+);
 
-export default function MainHome() {
-  const pathname = usePathname();
-  const scrollRestoredRef = useRef(false);
-  const SCROLL_KEY = "main-page-scroll-position";
 
-  // 스크롤 위치 저장
-  useEffect(() => {
-    const handleScroll = () => {
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
-      }
-    };
 
-    // 스크롤 이벤트 리스너 추가 (throttle 적용)
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-    };
-  }, []);
-
-  // 스크롤 위치 복원
-  useEffect(() => {
-    if (typeof window !== "undefined" && !scrollRestoredRef.current) {
-      // 다른 페이지에서 돌아온 경우에만 복원
-      const savedScroll = sessionStorage.getItem(SCROLL_KEY);
-      if (savedScroll && pathname === "/") {
-        // 약간의 지연을 두고 스크롤 복원 (렌더링 완료 후)
-        const timer = setTimeout(() => {
-          window.scrollTo({
-            top: Number(savedScroll),
-            behavior: "instant" as ScrollBehavior,
-          });
-          scrollRestoredRef.current = true;
-        }, 150);
-
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [pathname]);
-
+export default function UIUXPage() {
   return (
-    <div className="mx-auto">
+    <div className="max-w-3xl mx-auto">
       {/* Header Section */}
       <section className="mb-10">
         <article>
           <h1 className="text-4xl font-bold mb-4 leading-tight">
-            돌멩이, 
+            UI/UX
           </h1>
           <p className="text-base leading-relaxed text-foreground/80 ">
-            "늘 새로운 것을 탐구하고 분석하고, 일상 속 익숙해진 불편함을
-            해결하는 데 집중하면서 내 맘대로 작업물을 업로드하고 있습니다. 이 페이지는 개인 작업과 기술 실험을 모아 둔 포트폴리오이자
-            블로그입니다."
+            "UI/UX 불편한 점을 해결하고, 실험과 결과를 공유합니다."
           </p>
         </article>
       </section>
@@ -118,38 +47,12 @@ export default function MainHome() {
       {/* Divider */}
       <Separator className="mb-10" />
 
-      {/* Work Experience Section */}
-      <section className="mb-16">
-        <article>
-          <h2 className="flex items-center gap-2 mb-6 font-semibold text-xl">
-            <span className="flex items-center justify-center w-3 h-3 bg-orange-500 rounded-full">
-            </span>
-            Experience
-          </h2>
-
-          <ul className="space-y-0">
-            {workExperience.map((work, index) => (
-              <li key={index} className="border-b border-border">
-                <div className="flex items-start justify-between py-3 gap-4">
-                  <div className="font-semibold text-foreground min-w-[140px]">
-                    {work.company}
-                  </div>
-                  <div className="text-muted-foreground text-sm flex-1 text-right">
-                    {work.title}
-              </div>
-              </div>
-            </li>
-            ))}
-          </ul>
-        </article>
-      </section>
-
-      
+     
 
       {/* Blog Posts Section */}
       <section>
         <article>
-            <PostList category="archive" />
+          <PostList category="uiux" />
         </article>
       </section>
 

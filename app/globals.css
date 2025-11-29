@@ -164,6 +164,10 @@
   padding: 0 !important;
 }
 
+.bn-container .bn-editor {
+  padding: 0 !important;
+}
+
 .bn-editor pre,
 .bn-editor code,
 .bn-editor [data-content-type="codeBlock"] {

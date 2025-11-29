@@ -1,20 +1,21 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 번들 분석기 (선택사항)
-  // webpack: (config, { isServer }) => {
-  //   if (!isServer) {
-  //     config.resolve.fallback = { fs: false, net: false, tls: false };
-  //   }
-  //   return config;
-  // },
-  
-  // 불필요한 콘솔 제거
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+      },
+      {
+        protocol: "https",
+        hostname: "gscyihubyxyhdyqgnktm.supabase.co",
+      },
+    ],
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
-  },
-  
-  
+  }
 }
 
 module.exports = nextConfig
