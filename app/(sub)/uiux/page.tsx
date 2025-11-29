@@ -31,7 +31,7 @@ const PostList = dynamic(
 
 export default function UIUXPage() {
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="mx-auto">
       {/* Header Section */}
       <section className="mb-10">
         <article>

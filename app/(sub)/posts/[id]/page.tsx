@@ -144,7 +144,7 @@ async function PostDetailPage({
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
+        <h1 className="text-2xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
           {data.title}
         </h1>
 

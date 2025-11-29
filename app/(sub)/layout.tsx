@@ -10,7 +10,7 @@ export default function SubLayout({
     <>
       <div className="page">
         <AppHeader />
-        <main className="mx-auto w-full max-w-3xl">
+        <main className="mx-auto w-full max-w-3xl px-3">
           {children}
         </main>
       </div>

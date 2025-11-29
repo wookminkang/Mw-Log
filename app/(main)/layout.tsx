@@ -8,7 +8,7 @@ export default function MainLayout({
   return (
     <div className="page">
       <AppHeader />
-      <main className="mx-auto w-full max-w-3xl">{children}</main>
+      <main className="mx-auto w-full max-w-3xl px-3">{children}</main>
     </div>
   );
 }
