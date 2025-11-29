@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui";
 
-// PostList를 동적 임포트로 코드 스플리팅
+// PostList를 동적 임포트로 코드 스플리팅 (초기 번들에서 제외)
 const PostList = dynamic(() => import("./components").then((mod) => mod.PostList), {
   loading: () => (
     <div className="space-y-0">
@@ -25,7 +25,7 @@ const PostList = dynamic(() => import("./components").then((mod) => mod.PostList
       ))}
     </div>
   ),
-  ssr: true,
+  ssr: false, // 클라이언트에서만 로드하여 초기 번들 크기 감소
 });
 
 const workExperience = [
