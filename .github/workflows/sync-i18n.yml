@@ -20,7 +20,7 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install google-spreadsheet google-auth-library
+        run: npm install google-spreadsheet google-auth-library dotenv
 
       # 여기서 아까 등록한 구글 Secrets를 사용합니다!
       - name: Generate JSON files
