@@ -1,0 +1,44 @@
+name: Sync i18n to S3
+
+on:
+  # 1. 관리자 페이지에서 신호 보낼 때 (Webhook)
+  repository_dispatch:
+    types: [sync_i18n]
+  # 2. GitHub 웹사이트에서 수동으로 테스트 버튼 누를 때 (테스트용)
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install google-spreadsheet google-auth-library
+
+      # 여기서 아까 등록한 구글 Secrets를 사용합니다!
+      - name: Generate JSON files
+        run: node scripts/sync-i18n.js
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+
+      # 생성된 JSON을 S3로 업로드
+      - name: Upload to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ap-northeast-2' # 서울 리전
+          SOURCE_DIR: 'locales'
+          DEST_DIR: 'locales'
