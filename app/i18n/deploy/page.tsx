@@ -16,7 +16,6 @@ export default function DeployPage() {
     setStatus(null);
 
     try {
-      // 1. 우리가 만든 Next.js API 호출
       const res = await fetch('/api/sync', {
         method: 'POST',
       });
@@ -27,16 +26,14 @@ export default function DeployPage() {
         throw new Error(data.error || '알 수 없는 에러가 발생했습니다.');
       }
 
-      // 2. 성공 처리
       setStatus({
         type: 'success',
-        message: '🚀 배포 요청 성공! 약 1~2분 뒤에 적용됩니다.',
+        message: '배포 요청 성공! 약 1~2분 뒤에 적용됩니다.',
       });
     } catch (error: any) {
-      // 3. 에러 처리
       setStatus({
         type: 'error',
-        message: `❌ 실패: ${error.message}`,
+        message: `실패: ${error.message}`,
       });
     } finally {
       setIsLoading(false);
@@ -48,7 +45,7 @@ export default function DeployPage() {
       <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border border-gray-100">
         <div className="text-center mb-8">
           <div className="bg-blue-100 text-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-            🌍
+            <span className="bg-orange-500 rounded-full w-5 h-5"></span>
           </div>
           <h1 className="text-2xl font-bold text-gray-800">다국어 배포 관리자</h1>
           <p className="text-gray-500 mt-2 text-sm">
@@ -58,11 +55,10 @@ export default function DeployPage() {
 
         <div className="space-y-4">
           <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-600">
-            <p className="font-semibold mb-1">📢 배포 프로세스</p>
+            <p className="font-semibold mb-1">배포 프로세스</p>
             <ol className="list-decimal list-inside space-y-1">
               <li>구글 시트 내용 가져오기</li>
               <li>JSON 파일 변환 및 S3 업로드</li>
-              <li>CDN 캐시 초기화 (즉시 반영)</li>
             </ol>
           </div>
 
