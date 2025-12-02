@@ -30,10 +30,16 @@ export default function DeployPage() {
         type: 'success',
         message: '배포 요청 성공! 약 1~2분 뒤에 적용됩니다.',
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : '알 수 없는 에러가 발생했습니다.';
       setStatus({
         type: 'error',
-        message: `실패: ${error.message}`,
+        message: `실패: ${message}`,
       });
     } finally {
       setIsLoading(false);
