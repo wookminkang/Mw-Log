@@ -1,32 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-
-// PostList를 동적 임포트로 코드 스플리팅 (초기 번들에서 제외)
-const PostList = dynamic(() => import("./components").then((mod) => mod.PostList), {
-  loading: () => (
-    <div className="space-y-0">
-      {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index} className="py-8">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
-            <div className="flex-1 min-w-0 w-full md:w-auto space-y-3">
-              <div className="h-5 w-20 bg-muted rounded-md animate-pulse" />
-              <div className="h-7 w-full bg-muted rounded-md animate-pulse" />
-              <div className="h-5 w-2/3 bg-muted rounded-md animate-pulse" />
-              <div className="h-4 w-24 bg-muted rounded-md animate-pulse" />
-            </div>
-            <div className="w-full md:w-[240px] md:h-[160px] h-[190px] bg-muted rounded-lg animate-pulse" />
-          </div>
-          {index < 2 && <div className="border-b border-border mt-8" />}
-        </div>
-      ))}
-    </div>
-  ),
-  ssr: false, // 클라이언트에서만 로드하여 초기 번들 크기 감소
-});
+import { PostList } from "./components";
 
 const workExperience = [
   {
@@ -48,7 +25,7 @@ const workExperience = [
 ];
 
 export default function MainHome() {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const scrollRestoredRef = useRef(false);
   const SCROLL_KEY = "main-page-scroll-position";
 
@@ -80,24 +57,24 @@ export default function MainHome() {
   }, []);
 
   // 스크롤 위치 복원
-  useEffect(() => {
-    if (typeof window !== "undefined" && !scrollRestoredRef.current) {
-      // 다른 페이지에서 돌아온 경우에만 복원
-      const savedScroll = sessionStorage.getItem(SCROLL_KEY);
-      if (savedScroll && pathname === "/") {
-        // 약간의 지연을 두고 스크롤 복원 (렌더링 완료 후)
-        const timer = setTimeout(() => {
-          window.scrollTo({
-            top: Number(savedScroll),
-            behavior: "instant" as ScrollBehavior,
-          });
-          scrollRestoredRef.current = true;
-        }, 150);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && !scrollRestoredRef.current) {
+  //     // 다른 페이지에서 돌아온 경우에만 복원
+  //     const savedScroll = sessionStorage.getItem(SCROLL_KEY);
+  //     if (savedScroll && pathname === "/") {
+  //       // 약간의 지연을 두고 스크롤 복원 (렌더링 완료 후)
+  //       const timer = setTimeout(() => {
+  //         window.scrollTo({
+  //           top: Number(savedScroll),
+  //           behavior: "instant" as ScrollBehavior,
+  //         });
+  //         scrollRestoredRef.current = true;
+  //       }, 150);
 
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [pathname]);
+  //       return () => clearTimeout(timer);
+  //     }
+  //   }
+  // }, [pathname]);
 
   return (
     <div className="mx-auto">

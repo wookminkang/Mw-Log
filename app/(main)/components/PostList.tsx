@@ -42,9 +42,9 @@ function PostList({ category }: PostListProps) {
       const to = from + PAGE_SIZE - 1;
 
       let query = supabase
-    .from("topic")
-    .select("*")
-    .eq("status", "publish")
+        .from("topic")
+        .select("*")
+        .eq("status", "publish")
         .eq("isView", true);
 
       if (category) {
