@@ -199,3 +199,13 @@
 .bn-editor .ProseMirror {
   color: inherit;
 }
+
+
+.mw-editor{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+.mw-editor *{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
