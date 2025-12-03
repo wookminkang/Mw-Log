@@ -9,6 +9,8 @@ import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
+import { metaFactory } from "@/utils/metaFactory";
+
 interface PostData {
   title: string;
   content: string;
@@ -26,61 +28,21 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
-}): Promise<Metadata> {
+}) {
   const { id } = await params;
-
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("topic")
-    .select("*")
-    .eq("status", "publish")
-    .eq("id", id)
-    .eq("isView", true)
-    .single();
-
-  if (error || !data) {
-    return {
-      title: "포스트를 찾을 수 없습니다",
-      description: "요청하신 포스트를 찾을 수 없습니다.",
-    };
-  }
-
-  const getCategoryLabel = (category: string | null | undefined) => {
-    if (!category) return "post";
-    const found = TOPIC_CATEGORY.find((cat) => cat.category === category);
-    return found?.label || category;
-  };
-
-  const title = `${data.title} | ${getCategoryLabel(data.category)}`;
-  const description = data.title;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const imageUrl = data.thumbnail || `${siteUrl}/og-image.png`;
+  const metaInfo = await metaFactory('topic', id);
+  const { title, description, keywords, authors, applicationName, creator } = await metaInfo.getMeta();
 
   return {
     title,
     description,
-    keywords: [data.category || "", data.title, "블로그", "포스트"],
-    authors: [{ name: "돌멩이" }],
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime: data.created_at,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: data.title,
-        },
-      ],
-      siteName: "Mw Log",
-    },
-    alternates: {
-      canonical: `${siteUrl}/posts/${id}`,
-    },
-  };
+    keywords,
+    authors,
+    applicationName,
+    creator,
+  }
 }
+
 
 async function PostDetailPage({
   params,
@@ -185,7 +147,6 @@ async function PostDetailPage({
         <Link href="/" className="hover:text-foreground transition-colors">
           ← 목록으로 돌아가기
         </Link>
-        <div>© 2025 돌멩이</div>
       </footer>
     </div>
   );
