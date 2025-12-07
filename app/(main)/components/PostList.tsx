@@ -67,11 +67,8 @@ function PostList({ category }: PostListProps) {
       }
       return allPages.length * PAGE_SIZE;
     },
-    // 기본 설정은 providers.tsx에서 관리
-    // staleTime과 gcTime은 여기서 명시적으로 설정하면 오버라이드됨
   });
 
-  // posts 배열 메모이제이션
   const posts: PostItem[] = useMemo(
     () => data?.pages.flat() ?? [],
     [data?.pages]
@@ -98,7 +95,6 @@ function PostList({ category }: PostListProps) {
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  // 카테고리 라벨 가져오기 함수 메모이제이션
   const getCategoryLabel = useCallback(
     (category: string | null | undefined) => {
       if (!category) return "post";

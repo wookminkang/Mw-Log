@@ -5,7 +5,7 @@ const path = require('path');
 require('dotenv').config(); // 로컬 테스트용
 
 async function sync() {
-  console.log('🔄 번역 동기화 시작...');
+  console.log('번역 동기화 시작...');
 
   // 1. 환경변수에서 인증 정보 가져오기
   const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
