@@ -12,7 +12,7 @@ i18n
   .use(HttpBackend) // ★ 핵심: 외부에서 파일 불러오기
   .use(initReactI18next)
   .init({
-    lng: 'ko', // 기본 언어
+    lng: 'en', // 기본 언어
     fallbackLng: 'en',
     
     // 백엔드 설정 (S3 연결)
