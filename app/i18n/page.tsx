@@ -1,9 +1,9 @@
 
-import { useTranslation } from '../../lib/server_i18n';
+import { getTranslation } from '../../lib/server_i18n';
 import Ttmm from '@/components/i18nclient/ttmm';
 
 export default async function I18nPage() {
-  const { t } = await useTranslation('ko'); 
+  const { t } = await getTranslation('ko'); 
   return <div>
     {t('auth.login.title')}
     

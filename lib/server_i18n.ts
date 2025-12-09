@@ -38,7 +38,7 @@ async function loadResourceFromS3(lng: string): Promise<Record<string, any>> {
 /**
  * 서버 컴포넌트에서 사용할 t 함수를 생성하고 반환하는 헬퍼 함수
  */
-export async function useTranslation(lng?: string, ns = defaultNS) {
+export async function getTranslation(lng?: string, ns = defaultNS) {
   // 요청마다 독립적인 인스턴스 생성
   const i18nInstance = createInstance();
   const effectiveLng = lng || fallbackLng;
