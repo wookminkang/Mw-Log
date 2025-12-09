@@ -12,6 +12,7 @@ const defaultNS = 'translation';
 /**
  * 지정된 언어(lng)의 번역 파일을 S3에서 불러오는 함수
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function loadResourceFromS3(lng: string): Promise<Record<string, any>> {
   const url = `${S3_BASE_URL}${lng}.json`;
   
@@ -38,6 +39,7 @@ async function loadResourceFromS3(lng: string): Promise<Record<string, any>> {
 /**
  * 서버 컴포넌트에서 사용할 t 함수를 생성하고 반환하는 헬퍼 함수
  */
+
 export async function getTranslation(lng?: string, ns = defaultNS) {
   // 요청마다 독립적인 인스턴스 생성
   const i18nInstance = createInstance();
