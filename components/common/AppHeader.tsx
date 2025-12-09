@@ -13,13 +13,12 @@ function AppHeader() {
           <span>MINWOOK</span>
         </Link>
         <nav className="flex items-center gap-6">
-        
-          <Link
+          {/* <Link
             href="/uiux"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             UI/UX
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
