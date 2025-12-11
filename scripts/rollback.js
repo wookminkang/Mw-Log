@@ -8,7 +8,7 @@ require('dotenv').config();
 const targetVersion = process.argv[2];
 
 if (!targetVersion) {
-  console.error('❌ 에러: 되돌릴 버전 ID를 입력해주세요.');
+  console.error('에러: 되돌릴 버전 ID를 입력해주세요.');
   process.exit(1);
 }
 
@@ -21,7 +21,7 @@ const s3Client = new S3Client({
 });
 
 async function rollback() {
-  console.log(`⏪ 롤백 프로세스 시작... 목표 버전: ${targetVersion}`);
+  console.log(`롤백 프로세스 시작... 목표 버전: ${targetVersion}`);
 
   // 1. 새로운 매니페스트 내용 생성
   // (과거 파일들은 S3에 이미 있다고 가정하고 경로만 적어줍니다)
@@ -49,9 +49,9 @@ async function rollback() {
 
   try {
     await s3Client.send(command);
-    console.log(`✅ 롤백 성공! 이제 앱은 [${targetVersion}] 버전을 바라봅니다.`);
+    console.log(`롤백 성공! 이제 앱은 [${targetVersion}] 버전을 바라봅니다.`);
   } catch (err) {
-    console.error('❌ 롤백 실패:', err);
+    console.error('롤백 실패:', err);
     process.exit(1);
   }
 }
