@@ -1,5 +1,28 @@
-# ... (앞부분 동일) ...
-      
+name: Sync i18n to S3
+
+on:
+  # 1. 관리자 페이지(CMS)에서 웹훅으로 호출할 때
+  repository_dispatch:
+    types: [sync_i18n]
+  # 2. GitHub Actions 탭에서 수동으로 실행할 때
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install google-spreadsheet google-auth-library dotenv
+
+      # 스크립트 실행 (타임스탬프 버전으로 파일 생성)
       - name: Generate JSON files
         run: node scripts/sync-i18n.js
         env:
@@ -7,16 +30,36 @@
           GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
 
-      # 👇 [디버깅 강화] 전체 파일 구조를 찍어서 locales가 어디 생겼는지 확인
-      - name: Debug - Find Locales
+      # [디버깅] 파일이 실제로 잘 생성되었는지 로그로 확인
+      - name: Debug - Check Created Files
         run: |
-          echo "🔍 현재 위치 파일 목록:"
-          ls -F
-          
-          echo "🔍 혹시 public 안에 생겼나 확인:"
-          ls -F public/ || echo "public 폴더 없음"
-          
-          echo "🔍 locales 폴더 확인:"
-          ls -R locales
+          echo "📂 --- Created Files in ./locales ---"
+          ls -R ./locales
+          echo "-------------------------------------"
 
-      # ... (Upload 단계 계속) ...
+      # AWS 권한 설정
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      # 1단계: 번역 파일(*.json) 업로드
+      # 설명: locales 폴더 내용을 버킷의 locales/ 폴더 안으로 넣습니다.
+      # 주의: version.json은 제외하고, 캐시를 1년(31536000초)으로 설정합니다.
+      - name: Upload Translation Files (Long Cache)
+        run: |
+          aws s3 cp ./locales s3://${{ secrets.S3_BUCKET_NAME }}/locales/ \
+            --recursive \
+            --exclude "version.json" \
+            --cache-control "public, max-age=31536000, immutable" \
+            --acl public-read
+
+      # 2단계: 매니페스트(version.json) 업로드
+      # 설명: 이 파일은 항상 최신이어야 하므로 캐시를 끕니다(no-cache).
+      - name: Upload Manifest File (No Cache)
+        run: |
+          aws s3 cp ./locales/version.json s3://${{ secrets.S3_BUCKET_NAME }}/locales/version.json \
+            --cache-control "no-cache, no-store, must-revalidate" \
+            --acl public-read
