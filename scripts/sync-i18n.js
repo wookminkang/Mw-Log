@@ -6,14 +6,21 @@ require('dotenv').config();
 
 function generateVersion() {
   const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-  const hh = String(now.getHours()).padStart(2, '0');
-  const min = String(now.getMinutes()).padStart(2, '0');
-  const sec = String(now.getSeconds()).padStart(2, '0');
+  // 1. "Asia/Seoul" 시간대의 문자열을 뽑아냅니다.
+  // GitHub Actions(UTC)에서도 강제로 한국 시간을 가져옵니다.
+  const kstDate = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+
+  const yyyy = kstDate.getFullYear();
+  const mm = String(kstDate.getMonth() + 1).padStart(2, '0');
+  const dd = String(kstDate.getDate()).padStart(2, '0');
+  const hh = String(kstDate.getHours()).padStart(2, '0');
+  const min = String(kstDate.getMinutes()).padStart(2, '0');
+  const sec = String(kstDate.getSeconds()).padStart(2, '0');
+
+  
   return `${yyyy}${mm}${dd}-${hh}${min}${sec}`;
 }
+
 
 async function sync() {
   const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
