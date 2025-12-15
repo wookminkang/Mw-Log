@@ -1,27 +1,15 @@
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import dayjs from "dayjs";
-import type { Metadata } from "next";
+import Link from "next/link";
+
+import type { POST_DETAIL_TYPE } from "@/types";
+
 import { createClient } from "@/lib/supabase/server";
 import { Editor } from "@/components/common/DynamicEditor";
-import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-
 import { metaFactory } from "@/utils/metaFactory";
 
-interface PostData {
-  title: string;
-  content: string;
-  created_at: string;
-  thumbnail?: string;
-  status: string;
-  isView: boolean;
-  id: string;
-  category?: string;
-  author: string;
-}
 
 // SEO 메타데이터 생성
 export async function generateMetadata({
@@ -44,11 +32,7 @@ export async function generateMetadata({
 }
 
 
-async function PostDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
   const { id } = await params;
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -77,14 +61,6 @@ async function PostDetailPage({
 
   const parsedContent = data.content ? JSON.parse(data.content) : null;
 
-  const getCategoryLabel = (category: string | null | undefined) => {
-    if (!category) return "post";
-    const found = TOPIC_CATEGORY.find((cat) => cat.category === category);
-    return found?.label.toLowerCase() || category.toLowerCase();
-  };
-
-  const categoryLabel = getCategoryLabel(data.category);
-
   return (
     <div className="max-w-3xl mx-auto">
       {/* Back Button */}
@@ -101,34 +77,23 @@ async function PostDetailPage({
       <header className="mb-10">
         {/* Category Tag */}
         <div className="mb-4">
-          <span className="inline-block px-2.5 py-1 bg-orange-100 dark:bg-orange-900/30 text-foreground text-xs font-medium rounded-md">
-            {categoryLabel}
+          <span className="inline-block px-2.5 py-1 bg-orange-100 dark:bg-orange-900/30 text-foreground text-sm font-medium rounded-md">
+            {data.category}
           </span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
+        <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 leading-tight">
           {data.title}
         </h1>
 
         {/* Meta Info */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-4 text-xl text-muted-foreground font-semibold">
           <time dateTime={data.created_at}>
             {dayjs(data.created_at).format("YYYY. MM. DD")}
           </time>
         </div>
       </header>
-
-      {/* Thumbnail */}
-      {data.thumbnail && (
-        <div className="mb-10 rounded-lg overflow-hidden">
-          {/* <Image
-            src={data.thumbnail}
-            alt={data.title}
-            className="w-full h-auto object-cover"
-          /> */}
-        </div>
-      )}
 
       <Separator className="mb-10" />
 

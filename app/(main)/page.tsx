@@ -1,80 +1,20 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-// import { usePathname } from "next/navigation";
+import { HydrationBoundary, dehydrate, QueryClient } from "@tanstack/react-query";
+import { workExperience } from "@/features/main/api/getMyExperience";
 import { Separator } from "@/components/ui/separator";
-import { PostList } from "./components";
+import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { getPosts } from "@/features/main/api/getPosts";
+import { PostLists } from "@/features/main/components/PostList";
 
-const workExperience = [
-  {
-    company: "SmartScore",
-    title: "Web Frontend | 2023.03 - Now",
-  },
-  {
-    company: "Freelancer",
-    title: "(Freelancer) | 2022.05 - 2023.02",
-  },
-  {
-    company: "Kumosol Communication",
-    title: "Web Frontend(Publisher) | 2020.09 - 2022.04",
-  },
-  {
-    company: "Solution Bank",
-    title: "Web Publisher | 2019.08 - 2020.09",
-  }
-];
 
-export default function MainHome() {
-  // const pathname = usePathname();
-  const scrollRestoredRef = useRef(false);
-  const SCROLL_KEY = "main-page-scroll-position";
+export default async function MainHome() {
+  // post list query
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: postQueryKey.lists(),
+    queryFn: () => getPosts("archive"),
+  });
 
-  // 스크롤 위치 저장
-  useEffect(() => {
-    const handleScroll = () => {
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
-      }
-    };
-
-    // 스크롤 이벤트 리스너 추가 (throttle 적용)
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-    };
-  }, []);
-
-  // 스크롤 위치 복원
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" && !scrollRestoredRef.current) {
-  //     // 다른 페이지에서 돌아온 경우에만 복원
-  //     const savedScroll = sessionStorage.getItem(SCROLL_KEY);
-  //     if (savedScroll && pathname === "/") {
-  //       // 약간의 지연을 두고 스크롤 복원 (렌더링 완료 후)
-  //       const timer = setTimeout(() => {
-  //         window.scrollTo({
-  //           top: Number(savedScroll),
-  //           behavior: "instant" as ScrollBehavior,
-  //         });
-  //         scrollRestoredRef.current = true;
-  //       }, 150);
-
-  //       return () => clearTimeout(timer);
-  //     }
-  //   }
-  // }, [pathname]);
+  const dehydratedState = dehydrate(queryClient);
 
   return (
     <div className="mx-auto">
@@ -126,7 +66,10 @@ export default function MainHome() {
       {/* Blog Posts Section */}
       <section>
         <article>
-            <PostList category="archive" />
+          <HydrationBoundary state={dehydratedState}>
+            {/* <PostList category="archive" /> */}
+            <PostLists />
+          </HydrationBoundary>  
         </article>
       </section>
 

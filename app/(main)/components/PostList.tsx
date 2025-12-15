@@ -156,20 +156,20 @@ function PostList({ category }: PostListProps) {
 
                   {/* Title */}
                   <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
-                {item?.title}
-              </h3>
+                    {item?.title}
+                  </h3>
 
                   {/* Description */}
                   {item?.content_preview && (
                     <p className="text-base text-foreground/65 leading-relaxed mb-3 line-clamp-2">
-                {item?.content_preview}
-              </p>
+                      {item?.content_preview}
+                    </p>
                   )}
 
                   {/* Date */}
                   <p className="text-sm text-muted-foreground">
                     {dayjs(item?.created_at).format("YYYY. MM. DD")}
-              </p>
+                  </p>
             </div>
 
                 {/* Right: Image */}
