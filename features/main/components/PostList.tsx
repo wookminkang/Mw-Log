@@ -1,6 +1,7 @@
 "use client";
-
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useMemo, useCallback } from "react";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
 import { getPosts } from "../api/getPosts";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import Image from "next/image";
@@ -10,11 +11,30 @@ import dayjs from "dayjs";
 
 
 export function PostLists() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: postQueryKey.lists(),
-    queryFn: () => getPosts('archive'),
-    staleTime: 60 * 1000,
+  const { ref, inView } = useInView({
+    threshold: 0, 
   });
+
+
+  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery({
+    queryKey: postQueryKey.lists(),
+    queryFn: ({ pageParam = 0 }) => getPosts('archive', pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < 3) return undefined;
+      return lastPageParam + 1;
+    },
+    staleTime: 60 * 1000 * 5,
+    gcTime: 1000 * 60 * 10,
+    
+  });
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView,fetchNextPage]);
+
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error?.message}</div>;
@@ -22,7 +42,7 @@ export function PostLists() {
   return (
     <>
       {
-        data.map((item, index) => {
+        data.pages.flat().map((item, index) => {
           return (
             <div key={item?.id}>
               <Link href={`/posts/${item?.id}`} className="block py-8 hover:opacity-80 transition-opacity">
@@ -81,6 +101,11 @@ export function PostLists() {
           )
         })
       }
+
+      {/* 5. 무한스크롤 트리거 */}
+      <div ref={ref} className="flex justify-center items-center">
+ 
+      </div>
     </>
   )
 }

@@ -9,6 +9,7 @@ import type { POST_DETAIL_TYPE } from "@/types";
 import { createClient } from "@/lib/supabase/server";
 import { Editor } from "@/components/common/DynamicEditor";
 import { metaFactory } from "@/utils/metaFactory";
+import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";
 
 
 // SEO 메타데이터 생성
@@ -65,12 +66,7 @@ async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
     <div className="max-w-3xl mx-auto">
       {/* Back Button */}
       <div className="mb-8">
-        <Link href="/">
-          <Button variant="ghost" size="sm" className="gap-2">
-            <ArrowLeft className="w-4 h-4" />
-            목록으로
-          </Button>
-        </Link>
+        <PostDetailsBack />
       </div>
 
       {/* Header Section */}
@@ -109,9 +105,7 @@ async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
 
       {/* Navigation Footer */}
       <footer className="flex justify-between items-center text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground transition-colors">
-          ← 목록으로 돌아가기
-        </Link>
+        <PostDetailsBack />
       </footer>
     </div>
   );

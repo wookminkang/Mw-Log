@@ -9,9 +9,10 @@ import { PostLists } from "@/features/main/components/PostList";
 export default async function MainHome() {
   // post list query
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
+  await queryClient.prefetchInfiniteQuery({
     queryKey: postQueryKey.lists(),
-    queryFn: () => getPosts("archive"),
+    queryFn: ({ pageParam }) => getPosts("archive", pageParam),
+    initialPageParam: 0,
   });
 
   const dehydratedState = dehydrate(queryClient);

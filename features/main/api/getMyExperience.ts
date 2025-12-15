@@ -1,6 +1,7 @@
 import { WORK_EXPERIENCE_TYPE } from "@/types";
 
 
+// 경력사항
 export const workExperience: WORK_EXPERIENCE_TYPE[] = [
   {
     company: "SmartScore",

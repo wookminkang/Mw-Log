@@ -1,13 +1,18 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
-export async function getPosts(category?: string) {
-  const LIMIT = 3
+export async function getPosts(category?: string, pageParam: number = 0) {
+  let LIMIT = 5
+  const from = pageParam * LIMIT;
+  const to = from + LIMIT - 1;
+
   const supabase = new SupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  let query = supabase.from("topic").select("*").eq("status", "publish").eq("isView", true).order("created_at", { ascending: false });
+  
+
+  let query = supabase.from("topic").select("*").eq("status", "publish").eq("isView", true).order("created_at", { ascending: false }).range(from, to);;
   
 
   if(category) {
