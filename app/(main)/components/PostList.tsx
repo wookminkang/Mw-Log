@@ -34,7 +34,13 @@ function PostList({ category }: PostListProps) {
     isPending,
     isError,
     error,
-  } = useInfiniteQuery<PostItem[], Error, InfiniteData<PostItem[], number>, readonly unknown[], number>({
+  } = useInfiniteQuery<
+    PostItem[],
+    Error,
+    InfiniteData<PostItem[], number>,
+    readonly unknown[],
+    number
+  >({
     queryKey: ["posts-list", category],
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
@@ -156,7 +162,7 @@ function PostList({ category }: PostListProps) {
 
                   {/* Title */}
                   <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
-                    {item?.title}
+                    {item?.title}3
                   </h3>
 
                   {/* Description */}
@@ -170,13 +176,13 @@ function PostList({ category }: PostListProps) {
                   <p className="text-sm text-muted-foreground">
                     {dayjs(item?.created_at).format("YYYY. MM. DD")}
                   </p>
-            </div>
+                </div>
 
                 {/* Right: Image */}
                 <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
-            {item?.thumbnail ? (
+                  {item?.thumbnail ? (
                     <div className="relative h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
-              <Image
+                      <Image
                         src={item.thumbnail}
                         alt={item.title || "Thumbnail"}
                         fill
