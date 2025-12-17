@@ -1,13 +1,22 @@
-import { HydrationBoundary, dehydrate, QueryClient } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  dehydrate,
+  QueryClient,
+} from "@tanstack/react-query";
 import { workExperience } from "@/features/main/api/getMyExperience";
 import { Separator } from "@/components/ui/separator";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { getPosts } from "@/features/main/api/getPosts";
 import { PostLists } from "@/features/main/components/PostList";
 
-
 export default async function MainHome() {
-  // post list query
+  // 👇 이 코드를 추가하세요.
+  // 컴포넌트가 실행되자마자 에러를 던집니다.
+  const isTestingError = true;
+  if (isTestingError) {
+    throw new Error("내가 강제로 만든 에러야!");
+  }
+
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
     queryKey: postQueryKey.lists(),
@@ -22,12 +31,11 @@ export default async function MainHome() {
       {/* Header Section */}
       <section className="mb-10">
         <article>
-          <h1 className="text-4xl font-bold mb-4 leading-tight">
-            돌멩이, 
-          </h1>
+          <h1 className="text-4xl font-bold mb-4 leading-tight">돌멩이,</h1>
           <p className="text-base leading-relaxed text-foreground/80 ">
             "늘 새로운 것을 탐구하고 분석하고, 일상 속 익숙해진 불편함을
-            해결하는 데 집중하면서 내 맘대로 작업물을 업로드하고 있습니다. 이 페이지는 개인 작업과 기술 실험을 모아 둔 포트폴리오이자
+            해결하는 데 집중하면서 내 맘대로 작업물을 업로드하고 있습니다. 이
+            페이지는 개인 작업과 기술 실험을 모아 둔 포트폴리오이자
             블로그입니다."
           </p>
         </article>
@@ -40,8 +48,7 @@ export default async function MainHome() {
       <section className="mb-16">
         <article>
           <h2 className="flex items-center gap-2 mb-6 font-semibold text-xl">
-            <span className="flex items-center justify-center w-3 h-3 bg-orange-500 rounded-full">
-            </span>
+            <span className="flex items-center justify-center w-3 h-3 bg-orange-500 rounded-full"></span>
             Experience
           </h2>
 
@@ -54,15 +61,13 @@ export default async function MainHome() {
                   </div>
                   <div className="text-muted-foreground text-sm flex-1 text-right">
                     {work.title}
-              </div>
-              </div>
-            </li>
+                  </div>
+                </div>
+              </li>
             ))}
           </ul>
         </article>
       </section>
-
-      
 
       {/* Blog Posts Section */}
       <section>
@@ -70,7 +75,7 @@ export default async function MainHome() {
           <HydrationBoundary state={dehydratedState}>
             {/* <PostList category="archive" /> */}
             <PostLists />
-          </HydrationBoundary>  
+          </HydrationBoundary>
         </article>
       </section>
 
