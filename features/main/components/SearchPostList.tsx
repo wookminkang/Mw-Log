@@ -1,5 +1,6 @@
 "use client";
 
+import { useUISearchStore } from "@/stores/useUIStore";
 import { useQuery } from "@tanstack/react-query";
 import { getSearchPosts } from "../api/getSearchPosts";
 import { useEffect, useState } from "react";
@@ -7,6 +8,9 @@ import Link from "next/link";
 import { SearchX } from "lucide-react";
 
 export function SearchPostList({ keyWord }: { keyWord?: string }) {
+  const handleSearchState = useUISearchStore(
+    (state) => state.handleSearchState
+  );
   const [loading, setLoading] = useState(true);
   const { data, isLoading, error } = useQuery({
     queryKey: ["search", keyWord],
@@ -47,6 +51,7 @@ export function SearchPostList({ keyWord }: { keyWord?: string }) {
             href={`/posts/${post.id}`}
             key={post.id}
             className="flex items-center gap-4 p-4 hover:bg-gray-50 group transition"
+            onClick={() => handleSearchState()}
           >
             {/* 썸네일 */}
             <div

@@ -4,16 +4,13 @@ import Image from "next/image";
 import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUISearchStore } from "@/stores/useUIStore";
+import { usePathname } from "next/navigation";
 
 function AppHeader() {
-  //const searchStore = useUIStore();
+  const path = usePathname();
   const handleSearchState = useUISearchStore(
     (state) => state.handleSearchState
   );
-
-  const handleSearch = () => {
-    handleSearchState();
-  };
 
   return (
     <header className="fixed top-0 z-10 w-full border-b bg-background/60 backdrop-blur supports-backdrop-filter:bg-background/40">
@@ -23,14 +20,17 @@ function AppHeader() {
           <span>MINWOOK </span>
         </Link>
         <nav className="flex items-center gap-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="cursor-pointer"
-            onClick={handleSearch}
-          >
-            <SearchIcon className="size-5" />
-          </Button>
+          {path === "/" && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="cursor-pointer"
+              onClick={() => handleSearchState()}
+            >
+              <SearchIcon className="size-5" />
+            </Button>
+          )}
+
           {/* <Link
             href="/uiux"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
