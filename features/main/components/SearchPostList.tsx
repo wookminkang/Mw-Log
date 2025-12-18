@@ -44,7 +44,7 @@ export function SearchPostList({ keyWord }: { keyWord?: string }) {
       {data &&
         data.map((post) => (
           <Link
-            href={`/post/${post.id}`}
+            href={`/posts/${post.id}`}
             key={post.id}
             className="flex items-center gap-4 p-4 hover:bg-gray-50 group transition"
           >
