@@ -30,8 +30,8 @@ export default function Error({ error, reset }: ErrorProps) {
       </p>
 
       {/* 4. 에러 메시지 (개발 환경에서만 보이게 하거나, 흐리게 처리) */}
-      <div className="mt-6 p-4 bg-rose-50 border border-rose-100 rounded-lg dark:bg-rose-900/20 dark:border-rose-800">
-        <p className="text-sm font-mono text-rose-600 dark:text-rose-300 break-all">
+      <div className="mt-6 p-4 bg-orange-50 border border-orange-100 rounded-lg dark:bg-orange-900/20 dark:border-orange-800">
+        <p className="text-sm font-mono text-orange-600 dark:text-orange-300 break-all">
           Error: {error.message || "Unknown Error"}
         </p>
       </div>
@@ -44,7 +44,7 @@ export default function Error({ error, reset }: ErrorProps) {
             // 다시 시도 버튼을 누르면 페이지를 다시 렌더링 시도합니다.
             () => reset()
           }
-          className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white transition-all duration-300 bg-rose-600 rounded-lg shadow-md hover:bg-rose-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-rose-300 dark:focus:ring-rose-800"
+          className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white transition-all duration-300 bg-orange-600 rounded-lg shadow-md hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-orange-300 dark:focus:ring-orange-800"
         >
           다시 시도하기
         </button>
@@ -52,7 +52,7 @@ export default function Error({ error, reset }: ErrorProps) {
         {/* 홈으로 가기 버튼 */}
         <Link
           href="/"
-          className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-rose-700 transition-all duration-300 bg-rose-100 rounded-lg hover:bg-rose-200 focus:outline-none focus:ring-4 focus:ring-rose-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-orange-700 transition-all duration-300 bg-orange-100 rounded-lg hover:bg-orange-200 focus:outline-none focus:ring-4 focus:ring-orange-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
         >
           홈으로 가기
         </Link>

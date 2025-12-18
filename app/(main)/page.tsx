@@ -12,8 +12,8 @@ import { PostLists } from "@/features/main/components/PostList";
 export default async function MainHome() {
   // 👇 이 코드를 추가하세요.
   // 컴포넌트가 실행되자마자 에러를 던집니다.
-  const isTestingError = true;
-  if (isTestingError) {
+  const tttt = true;
+  if (tttt) {
     throw new Error("내가 강제로 만든 에러야!");
   }
 
