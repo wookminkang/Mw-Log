@@ -48,6 +48,7 @@ function AppEditor({ content, setContent, readonly }: Props) {
       },
     },
     uploadFile: async (file: File) => {
+      
       const blobUrl = URL.createObjectURL(file);
       pendingFilesRef.current.set(blobUrl, file);
       return blobUrl; // BlockNote가 이 URL을 이미지 src로 사용

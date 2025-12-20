@@ -96,11 +96,6 @@ function LoginForm() {
             variant={"secondary"}
             onClick={handleGoogleLogin}
           >
-            <img
-              src="/assets/icons/social/google.svg"
-              alt="@GOOGLE-LOGO"
-              className="w-[18px] h-[18px] mr-1"
-            />
             구글 로그인
           </Button>
           {/* 경계선 */}
