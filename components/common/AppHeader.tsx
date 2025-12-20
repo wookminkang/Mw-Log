@@ -26,6 +26,8 @@ function AppHeader() {
               size="icon"
               className="cursor-pointer"
               onClick={() => handleSearchState()}
+              type="button"
+              aria-label="검색창 열기"
             >
               <SearchIcon className="size-5" />
             </Button>
