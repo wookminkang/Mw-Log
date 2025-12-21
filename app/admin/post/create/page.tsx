@@ -1,4 +1,3 @@
-"use client"
 import { PostCreate } from "@/features/admin/components/postCreate"
 
 

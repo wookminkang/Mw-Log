@@ -29,3 +29,27 @@ export async function getPosts(category?: string, pageParam: number = 0) {
   return data;
 
 }
+
+
+
+export async function getPostsNoInfinity(category?: string) {
+  const supabase = new SupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  let query = supabase.from("topic").select("*").eq("status", "publish").eq("isView", true).order("created_at", { ascending: false });
+
+  if(category) {
+    query = query.eq("category", category);
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+
+}
