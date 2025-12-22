@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { ImageUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
-import supabase from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -62,16 +62,16 @@ export function PostCreate() {
       const filePath = `topics/${fileName}`;
 
       // 슈퍼베이스 스토리지에 썸네일 이미지 등록
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("files")
+      const { data: uploadData, error: uploadError } = await createClient()
+        .storage.from("files")
         .upload(filePath, thumbnail);
 
       if (uploadError) {
         toast.error(`업로드에 실패했습니다. ${uploadError}`);
       }
 
-      const { data: thumbnailData } = await supabase.storage
-        .from("files")
+      const { data: thumbnailData } = await createClient()
+        .storage.from("files")
         .getPublicUrl(filePath);
       stateThumbnail = thumbnailData.publicUrl;
       setThumbnail(stateThumbnail);
@@ -105,10 +105,9 @@ export function PostCreate() {
           console.log(`filePath =>`, filePath);
 
           // 4) Supabase Storage 업로드 (Blob + contentType)
-          const { data: uploadData, error: uploadError } =
-            await supabase.storage
-              .from("files")
-              .upload(filePath, blob, { contentType: blob.type });
+          const { data: uploadData, error: uploadError } = await createClient()
+            .storage.from("files")
+            .upload(filePath, blob, { contentType: blob.type });
 
           if (uploadError) {
             toast.error(uploadError.message);
@@ -118,8 +117,8 @@ export function PostCreate() {
           if (uploadData) {
             console.log(`uploadData =>`, uploadData);
             // 5) 공개 URL 생성
-            const { data: pub } = supabase.storage
-              .from("files")
+            const { data: pub } = createClient()
+              .storage.from("files")
               .getPublicUrl(filePath);
             const publicUrl = pub.publicUrl;
 
@@ -129,7 +128,7 @@ export function PostCreate() {
         })
       );
 
-      const { data, error } = await supabase
+      const { data, error } = await createClient()
         .from("topic")
         .insert({
           title,
