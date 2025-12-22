@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
 import Link from "next/link";
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
-import supabase from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 type PostItem = {
   id: string;
@@ -47,7 +47,7 @@ function PostList({ category }: PostListProps) {
       const from = pageParam as number;
       const to = from + PAGE_SIZE - 1;
 
-      let query = supabase
+      let query = createClient()
         .from("topic")
         .select("*")
         .eq("status", "publish")
@@ -162,7 +162,7 @@ function PostList({ category }: PostListProps) {
 
                   {/* Title */}
                   <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
-                    {item?.title}3
+                    {item?.title}
                   </h3>
 
                   {/* Description */}

@@ -1,6 +1,6 @@
-import { PostCreate } from "../components";
+// import { PostCreate } from "../components";
 
 async function PostCreatePage() {
-  return <PostCreate />;
+  return <></>;
 }
 export default PostCreatePage;

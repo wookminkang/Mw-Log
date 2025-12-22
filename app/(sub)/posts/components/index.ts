@@ -1,4 +1,4 @@
 import { PostList } from "./PostList";
-import { PostCreate } from "./PostCreate";
+// import { PostCreate } from "./PostCreate";
 
-export { PostList, PostCreate };
+export { PostList };
