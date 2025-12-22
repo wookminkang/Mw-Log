@@ -1,4 +1,4 @@
-# Next-Supabase 프로젝트
+# Mw-log 프로젝트
 
 이 프로젝트는 **Next.js 16**, **Supabase**, **Tailwind CSS 4**를 기반으로 구축된 최신 웹 애플리케이션입니다.
 
