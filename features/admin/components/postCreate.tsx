@@ -30,8 +30,10 @@ import { getContent } from "@/utils/getContent";
 import { Editor } from "@/components/common/DynamicEditor";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function PostCreate() {
+  // const queryClient = useQueryClient()
   const user = useAuthStore((state) => state.user);
   const [title, setTitle] = useState<string>("");
   const [isView, setIsView] = useState<boolean>(false);
