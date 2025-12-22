@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -31,102 +31,105 @@ import { Editor } from "@/components/common/DynamicEditor";
 import Image from "next/image";
 import { toast } from "sonner";
 
-export function PostCreate(){
-  const user = useAuthStore((state)=> state.user)
-  const [title, setTitle] = useState<string>('')
-  const [isView, setIsView] = useState<boolean>(false)
-  const [category, setCategory] = useState<string>('')
-  const [content, setContent] = useState<Block[]>([])
-  const [previewImg, setPreviewImg] = useState<string>('')
-  const [thumbnail, setThumbnail] = useState<File | string>('')
+export function PostCreate() {
+  const user = useAuthStore((state) => state.user);
+  const [title, setTitle] = useState<string>("");
+  const [isView, setIsView] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("");
+  const [content, setContent] = useState<Block[]>([]);
+  const [previewImg, setPreviewImg] = useState<string>("");
+  const [thumbnail, setThumbnail] = useState<File | string>("");
+  const [contentPreview, setContentPreview] = useState<string>("");
 
   // 썸네일 이미지 버튼
-  const handleFile = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     /* 프리뷰 이미지 */
-    setPreviewImg(URL.createObjectURL(e.target.files[0]))
+    setPreviewImg(URL.createObjectURL(e.target.files[0]));
     /* 썸네일 이미지 */
-    setThumbnail(e.target.files[0])
+    setThumbnail(e.target.files[0]);
     //const ext = e.target.files[0].name.split(" ").pop().split(".").pop()
-  }
+  };
 
   // 프리뷰 컨텐츠
   const res_contentPreview = getContent(content);
 
   // 저장 버튼
   const handleSubmit = async () => {
-    let stateThumbnail
+    let stateThumbnail;
     if (thumbnail && thumbnail instanceof File) {
       const fileExt = thumbnail?.name.split(".").pop();
       const fileName = `${nanoid()}.${fileExt}`; // test.png
-      const filePath = `topics/${fileName}`
+      const filePath = `topics/${fileName}`;
 
       // 슈퍼베이스 스토리지에 썸네일 이미지 등록
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from("files")
         .upload(filePath, thumbnail);
 
-        if(uploadError) {
-          toast.error(`업로드에 실패했습니다. ${uploadError}`);
-        }
+      if (uploadError) {
+        toast.error(`업로드에 실패했습니다. ${uploadError}`);
+      }
 
-        const { data: thumbnailData } = await supabase.storage
+      const { data: thumbnailData } = await supabase.storage
         .from("files")
         .getPublicUrl(filePath);
-        stateThumbnail = thumbnailData.publicUrl;
-        setThumbnail(stateThumbnail);
+      stateThumbnail = thumbnailData.publicUrl;
+      setThumbnail(stateThumbnail);
 
-
-
-        const filterContent = content.filter((item) => item.type === "image")
+      const filterContent = content.filter((item) => item.type === "image");
 
       // 이곳이 blocNote image Upload
       let contentImageUrl: string | null = null;
       await Promise.all(
-          filterContent.map(async (item) => {
-            // 1) 소스 URL (blob: or data: or http:)
-            const src: string | undefined = item?.props?.url;
-            if (!src) return;
-        
-            // 2) 실제 파일 데이터(Blob)로 변환
-            const res = await fetch(src);
-            const blob = await res.blob();
-        
-            // 3) 확장자 결정 (이름 > MIME > 기본값)
-            const fileExtFromName = item?.props?.name?.split(".").pop();
-            const fileExtFromMime = blob.type?.split("/")[1];
-            const fileExt = (fileExtFromName || fileExtFromMime || "bin").toLowerCase();
-        
-            const fileName = `${nanoid()}.${fileExt}`;
-            const filePath = `topic/${fileName}`;
-        
-            console.log(`filePath =>`, filePath);
-        
-            // 4) Supabase Storage 업로드 (Blob + contentType)
-            const { data: uploadData, error: uploadError } = await supabase.storage
+        filterContent.map(async (item) => {
+          // 1) 소스 URL (blob: or data: or http:)
+          const src: string | undefined = item?.props?.url;
+          if (!src) return;
+
+          // 2) 실제 파일 데이터(Blob)로 변환
+          const res = await fetch(src);
+          const blob = await res.blob();
+
+          // 3) 확장자 결정 (이름 > MIME > 기본값)
+          const fileExtFromName = item?.props?.name?.split(".").pop();
+          const fileExtFromMime = blob.type?.split("/")[1];
+          const fileExt = (
+            fileExtFromName ||
+            fileExtFromMime ||
+            "bin"
+          ).toLowerCase();
+
+          const fileName = `${nanoid()}.${fileExt}`;
+          const filePath = `topic/${fileName}`;
+
+          console.log(`filePath =>`, filePath);
+
+          // 4) Supabase Storage 업로드 (Blob + contentType)
+          const { data: uploadData, error: uploadError } =
+            await supabase.storage
               .from("files")
               .upload(filePath, blob, { contentType: blob.type });
-        
-            if (uploadError) {
-              toast.error(uploadError.message);
-              return;
-            }
-        
-            if (uploadData) {
-              console.log(`uploadData =>`, uploadData);
-              // 5) 공개 URL 생성
-              const { data: pub } = supabase.storage.from("files").getPublicUrl(filePath);
-              const publicUrl = pub.publicUrl;
-        
-              // 필요 시 첫 번째 이미지 URL을 썸네일 등으로 보관
-              if (!contentImageUrl) contentImageUrl = publicUrl;
-            }
-          })
-        );
 
+          if (uploadError) {
+            toast.error(uploadError.message);
+            return;
+          }
 
+          if (uploadData) {
+            console.log(`uploadData =>`, uploadData);
+            // 5) 공개 URL 생성
+            const { data: pub } = supabase.storage
+              .from("files")
+              .getPublicUrl(filePath);
+            const publicUrl = pub.publicUrl;
 
+            // 필요 시 첫 번째 이미지 URL을 썸네일 등으로 보관
+            if (!contentImageUrl) contentImageUrl = publicUrl;
+          }
+        })
+      );
 
-        const { data, error } = await supabase
+      const { data, error } = await supabase
         .from("topic")
         .insert({
           title,
@@ -140,8 +143,7 @@ export function PostCreate(){
         })
         .select();
     }
-  }
-
+  };
 
   return (
     <section>
@@ -262,5 +264,5 @@ export function PostCreate(){
         </Card>
       </article>
     </section>
-  )
+  );
 }

@@ -1,10 +1,5 @@
-import { PostCreate } from "@/features/admin/components/postCreate"
+import { PostCreate } from "@/features/admin/components/postCreate";
 
-
-export default function CreatePostPage(){
-  return (
-    <>
-      <PostCreate />
-    </>
-  )
+export default function CreatePostPage() {
+  return <PostCreate />;
 }

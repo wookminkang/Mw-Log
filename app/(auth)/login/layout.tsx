@@ -8,8 +8,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className="antialiased">
+    <html lang="en">
+      <body>
         <div className="page">
           <AppHeader />
           <main className="mx-auto w-full max-w-5xl px-6">

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import supabase from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 interface User {
   id: string;
@@ -20,6 +20,8 @@ interface WebThemeStore {
   theme: ThemeMode;
   setTheme: (theme: ThemeMode) => void;
 }
+
+const supabase = createClient();
 
 const useAuthStore = create<AuthStore>()(
   devtools(

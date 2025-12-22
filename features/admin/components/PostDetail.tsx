@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -23,7 +23,6 @@ import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import supabase from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/stores";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AppEditor } from "@/components/common/AppEditor";
 import type { Block } from "@blocknote/core";
@@ -34,49 +33,46 @@ import { toast } from "sonner";
 import { getPostDetail } from "@/features/main/api/getPostDetail";
 import { Separator } from "@/components/ui/separator";
 
-
-
-
-
-export function PostDetail({id}: {id: string}) {
-  console.log(`id =>`, id)
-
-  const [title, setTitle] = useState<string>('')
-  const [isView, setIsView] = useState<boolean>(false)
-  const [category, setCategory] = useState<string>('')
-  const [content, setContent] = useState<Block[]>([])
-  const [previewImg, setPreviewImg] = useState<string>('')
-  const [thumbnail, setThumbnail] = useState<File | string>('')
-
+export function PostDetail({ id }: { id: string }) {
+  const [title, setTitle] = useState<string>("");
+  const [isView, setIsView] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("");
+  const [content, setContent] = useState<Block[]>([]);
+  const [thumbnail, setThumbnail] = useState<File | string>("");
+  const [contentPreview, setContentPreview] = useState<string>("");
 
   // 썸네일 이미지 버튼
-  const handleFile = (e:React.ChangeEvent<HTMLInputElement>) => {
-    /* 프리뷰 이미지 */
-    setPreviewImg(URL.createObjectURL(e.target.files[0]))
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     /* 썸네일 이미지 */
-    setThumbnail(e.target.files[0])
+    setThumbnail(e.target.files[0]);
     //const ext = e.target.files[0].name.split(" ").pop().split(".").pop()
-  }
-
-
-  const handleSubmit = () => {
-    console.log(22222)
-  }
-
+  };
 
   const getDetail = async () => {
-    const data = await getPostDetail(id)
-    console.log(`detail data =>`, data)
-    setTitle(data.title)
-    setIsView(data.isView)
-    setCategory(data.category)
-    setContent(JSON.parse(data.content))
-  }
+    const data = await getPostDetail(id);
+    console.log(`detail data =>`, data);
+    setTitle(data.title);
+    setIsView(data.isView);
+    setCategory(data.category);
+    setContent(JSON.parse(data.content));
+    setThumbnail(data.thumbnail);
+    setContentPreview(getContent(JSON.parse(data.content)));
+  };
 
   useEffect(() => {
-    getDetail()
-  },[id])
+    getDetail();
+  }, [id]);
 
+  const handleSubmit = async () => {
+    /**
+     * 수정 update
+     */
+    // const { data, error } = await supabase
+    // .from('topic')
+    // .update({ title, content: JSON.stringify(content), content_preview:contentPreview, category, thumbnail: thumbnailUrl, author: user?.id, status: "publish" })
+    // .eq('id', topic_id)
+    // .select()
+  };
 
   return (
     <section>
@@ -92,13 +88,19 @@ export function PostDetail({id}: {id: string}) {
             <FieldSet>
               <FieldGroup>
                 <Field>
-                  <FieldLabel className="font-semibold text-xl">썸네일</FieldLabel>
+                  <FieldLabel className="font-semibold text-xl">
+                    썸네일
+                  </FieldLabel>
                   <Separator />
-                  {thumbnail && thumbnail instanceof File ? (
+                  {thumbnail ? (
                     <>
                       <div>
                         <Image
-                          src={previewImg}
+                          src={
+                            typeof thumbnail === "string"
+                              ? thumbnail
+                              : URL.createObjectURL(thumbnail)
+                          }
                           alt="thumbnail"
                           width={200}
                           height={200}
@@ -108,7 +110,6 @@ export function PostDetail({id}: {id: string}) {
                           className="text-md w-[200px] border rounded-[.625rem] p-2 mt-2 cursor-pointer"
                           onClick={() => {
                             setThumbnail("");
-                            setPreviewImg("");
                           }}
                         >
                           삭제하기
@@ -144,7 +145,9 @@ export function PostDetail({id}: {id: string}) {
                   )}
                 </Field>
                 <Field>
-                  <FieldLabel className="font-semibold text-xl">카테고리</FieldLabel>
+                  <FieldLabel className="font-semibold text-xl">
+                    카테고리
+                  </FieldLabel>
                   <Separator />
                   <Select value={category} onValueChange={setCategory}>
                     <SelectTrigger>
@@ -161,7 +164,9 @@ export function PostDetail({id}: {id: string}) {
                   </Select>
                 </Field>
                 <Field>
-                  <FieldLabel className="font-semibold text-xl">제목</FieldLabel>
+                  <FieldLabel className="font-semibold text-xl">
+                    제목
+                  </FieldLabel>
                   <Separator />
                   <Input
                     type="text"
@@ -170,7 +175,9 @@ export function PostDetail({id}: {id: string}) {
                   />
                 </Field>
                 <Field>
-                  <FieldLabel className="font-semibold text-xl">발행/미발행</FieldLabel>
+                  <FieldLabel className="font-semibold text-xl">
+                    발행/미발행
+                  </FieldLabel>
                   <Separator />
                   <div>
                     <Checkbox
@@ -180,7 +187,9 @@ export function PostDetail({id}: {id: string}) {
                   </div>
                 </Field>
                 <Field>
-                  <FieldLabel className="font-semibold text-xl">내용</FieldLabel>
+                  <FieldLabel className="font-semibold text-xl">
+                    내용
+                  </FieldLabel>
                   <Separator />
                   <div className="px-4">
                     <Editor content={content} setContent={setContent} />
@@ -189,10 +198,10 @@ export function PostDetail({id}: {id: string}) {
               </FieldGroup>
             </FieldSet>
 
-            <Button onClick={handleSubmit}>저장</Button>
+            <Button onClick={handleSubmit}>수정완료</Button>
           </CardContent>
         </Card>
       </article>
     </section>
-  )
+  );
 }
