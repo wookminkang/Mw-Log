@@ -31,9 +31,11 @@ import { Editor } from "@/components/common/DynamicEditor";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postQueryKey } from "@/utils/QueryKeyFactory";
 
 export function PostCreate() {
-  // const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+
   const user = useAuthStore((state) => state.user);
   const [title, setTitle] = useState<string>("");
   const [isView, setIsView] = useState<boolean>(false);
@@ -145,6 +147,15 @@ export function PostCreate() {
         .select();
     }
   };
+
+  const mutation = useMutation({
+    mutationFn: () => handleSubmit(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: postQueryKey.lists(),
+      });
+    },
+  });
 
   return (
     <section>
@@ -260,7 +271,7 @@ export function PostCreate() {
               </FieldGroup>
             </FieldSet>
 
-            <Button onClick={handleSubmit}>저장</Button>
+            <Button onClick={() => mutation.mutate()}>저장</Button>
           </CardContent>
         </Card>
       </article>
