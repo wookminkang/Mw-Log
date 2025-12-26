@@ -36,6 +36,7 @@ import { useParams } from "next/navigation";
 import { useAuthStore } from "@/stores";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { useRouter } from "next/navigation";
+import { revalidatePostList } from "@/features/admin/api/serverActions"
 
 
 
@@ -110,7 +111,7 @@ export function PostDetail() {
       })
       toast.success('수정되었습니다.')
 
-      router.refresh();
+      revalidatePostList()
 
       router.push('/admin/post')
     }

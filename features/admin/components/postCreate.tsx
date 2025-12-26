@@ -33,6 +33,7 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { useRouter } from "next/navigation";
+import { revalidateMainPostList } from "@/features/admin/api/serverActions"
 
 export function PostCreate() {
   const queryClient = useQueryClient();
@@ -159,7 +160,8 @@ export function PostCreate() {
       
       toast.success('수정되었습니다.')
 
-      router.refresh();
+      //router.refresh();
+      revalidateMainPostList()
 
       router.push('/')
 
