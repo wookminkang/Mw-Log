@@ -271,7 +271,8 @@ export function PostCreate() {
               </FieldGroup>
             </FieldSet>
 
-            <Button onClick={() => mutation.mutate()}>저장</Button>
+
+            <Button className="mt-20" onClick={() => mutation.mutate()}>저장</Button>
           </CardContent>
         </Card>
       </article>

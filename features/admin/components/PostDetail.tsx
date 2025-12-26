@@ -32,14 +32,61 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { getPostDetail } from "@/features/main/api/getPostDetail";
 import { Separator } from "@/components/ui/separator";
+import { useParams } from "next/navigation";
+import { useAuthStore } from "@/stores";
+import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { useRouter } from "next/navigation";
 
-export function PostDetail({ id }: { id: string }) {
+
+
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function PostDetail() {
+  const router = useRouter();
+  const  { id } = useParams()
+
+  const queryClient = useQueryClient();
+  
+  const { data:detailData } = useQuery({
+    queryKey:postQueryKey.detail(id as string | number),
+    queryFn: () => getDetailInfo()
+  });
+
+  const getDetailInfo = async () => {
+    const data = await getPostDetail(id as string | number);
+    return data
+  }
+
+
   const [title, setTitle] = useState<string>("");
   const [isView, setIsView] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
   const [content, setContent] = useState<Block[]>([]);
   const [thumbnail, setThumbnail] = useState<File | string>("");
   const [contentPreview, setContentPreview] = useState<string>("");
+
+  const user = useAuthStore((state) => state.user)
+
+  useEffect(() => {
+    if (detailData) {
+      console.log("데이터 도착, 상태 업데이트:", detailData);
+      setTitle(detailData.title);
+      setIsView(detailData.isView);
+      setCategory(detailData.category);
+      
+      try {
+          const parsedContent = typeof detailData.content === 'string' 
+              ? JSON.parse(detailData.content) 
+              : detailData.content;
+              
+          setContent(parsedContent);
+          setThumbnail(detailData.thumbnail);
+          setContentPreview(getContent(parsedContent));
+      } catch (e) {
+          console.error("Content 파싱 에러", e);
+      }
+    }
+  }, [detailData]); 
 
   // 썸네일 이미지 버튼
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,31 +95,36 @@ export function PostDetail({ id }: { id: string }) {
     //const ext = e.target.files[0].name.split(" ").pop().split(".").pop()
   };
 
-  const getDetail = async () => {
-    const data = await getPostDetail(id);
-    console.log(`detail data =>`, data);
-    setTitle(data.title);
-    setIsView(data.isView);
-    setCategory(data.category);
-    setContent(JSON.parse(data.content));
-    setThumbnail(data.thumbnail);
-    setContentPreview(getContent(JSON.parse(data.content)));
-  };
+  
+  
+  const { mutate } = useMutation({
+    mutationFn:  () => updatePost(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: postQueryKey.detail(id as string | number)
+      })
+      toast.success('수정되었습니다.')
+      router.push('/admin/post')
+    }
+  })
 
-  useEffect(() => {
-    getDetail();
-  }, [id]);
-
-  const handleSubmit = async () => {
+  const updatePost = async () => {
     /**
      * 수정 update
      */
-    // const { data, error } = await supabase
-    // .from('topic')
-    // .update({ title, content: JSON.stringify(content), content_preview:contentPreview, category, thumbnail: thumbnailUrl, author: user?.id, status: "publish" })
-    // .eq('id', topic_id)
-    // .select()
+    const { data, error } = await createClient()
+    .from('topic')
+    .update({ title, content: JSON.stringify(content), content_preview:contentPreview, category, thumbnail, author: user?.id, status: "publish" })
+    .eq('id', id)
+    .select()
+  }
+
+  const handleSubmit = async () => {
+    mutate()
   };
+
+
+
 
   return (
     <section>

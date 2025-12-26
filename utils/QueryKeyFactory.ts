@@ -2,7 +2,7 @@
 export const postQueryKey = {
   lists: () => ["posts", 'list'] as const,
   list: (category: string) => [...postQueryKey.lists(), category] as const,
-  detail: (id:string) => ["post", "detail", id] as const,
+  detail: (id:string | number) => ["post", "detail", id] as const,
 }
 
 

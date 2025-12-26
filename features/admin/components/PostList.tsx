@@ -12,7 +12,7 @@ export function PostList() {
     queryFn: () => getPostsNoInfinity("archive"),
   });
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
       {data.map((item) => (
         <Link href={`/admin/post/create/${item.id}`} key={item.id}>
           <Card className="overflow-hidden py-0">
