@@ -1,0 +1,3 @@
+User-Agent: *
+Allow: /
+Sitemap: https://orange-dol.com/sitemap.xml
