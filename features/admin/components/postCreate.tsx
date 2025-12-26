@@ -32,9 +32,11 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { useRouter } from "next/navigation";
 
 export function PostCreate() {
   const queryClient = useQueryClient();
+  const router = useRouter()
 
   const user = useAuthStore((state) => state.user);
   const [title, setTitle] = useState<string>("");
@@ -154,6 +156,11 @@ export function PostCreate() {
       queryClient.invalidateQueries({
         queryKey: postQueryKey.lists(),
       });
+
+      router.refresh();
+
+      router.push('/')
+
     },
   });
 

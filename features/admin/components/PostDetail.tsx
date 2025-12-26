@@ -104,6 +104,9 @@ export function PostDetail() {
         queryKey: postQueryKey.detail(id as string | number)
       })
       toast.success('수정되었습니다.')
+
+      router.refresh();
+
       router.push('/admin/post')
     }
   })
