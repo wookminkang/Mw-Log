@@ -152,10 +152,12 @@ export function PostCreate() {
 
   const mutation = useMutation({
     mutationFn: () => handleSubmit(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: postQueryKey.lists(),
       });
+      
+      toast.success('수정되었습니다.')
 
       router.refresh();
 

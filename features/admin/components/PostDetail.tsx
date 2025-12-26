@@ -99,8 +99,13 @@ export function PostDetail() {
   
   const { mutate } = useMutation({
     mutationFn:  () => updatePost(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+
+      await queryClient.invalidateQueries({
+        queryKey: postQueryKey.lists() 
+      })
+
+      await queryClient.invalidateQueries({
         queryKey: postQueryKey.detail(id as string | number)
       })
       toast.success('수정되었습니다.')
