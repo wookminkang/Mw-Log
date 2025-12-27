@@ -161,7 +161,7 @@ export function PostCreate() {
       toast.success('수정되었습니다.')
 
       //router.refresh();
-      revalidateMainPostList()
+      await revalidateMainPostList()
 
       router.push('/')
 
