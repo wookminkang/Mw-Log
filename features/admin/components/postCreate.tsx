@@ -154,13 +154,13 @@ export function PostCreate() {
   const mutation = useMutation({
     mutationFn: () => handleSubmit(),
     onSuccess: async () => {
-      // await queryClient.invalidateQueries({
-      //   queryKey: postQueryKey.lists(),
-      // });
+      await queryClient.invalidateQueries({
+        queryKey: postQueryKey.lists(),
+      });
 
-      // await queryClient.invalidateQueries({
-      //   queryKey: adminPostQueryKey.lists(),
-      // });
+      await queryClient.invalidateQueries({
+        queryKey: adminPostQueryKey.lists(),
+      });
 
       await revalidatePostList();
       await toast.success('등록되었습니다.')

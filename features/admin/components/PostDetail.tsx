@@ -101,17 +101,17 @@ export function PostDetail() {
     mutationFn:  () => updatePost(),
     onSuccess: async () => {
 
-      // await queryClient.invalidateQueries({
-      //   queryKey: postQueryKey.lists() 
-      // })
+      await queryClient.invalidateQueries({
+        queryKey: postQueryKey.lists() 
+      })
       
-      // await queryClient.invalidateQueries({
-      //   queryKey: adminPostQueryKey.lists() 
-      // })
+      await queryClient.invalidateQueries({
+        queryKey: adminPostQueryKey.lists() 
+      })
 
-      // await queryClient.invalidateQueries({
-      //   queryKey: postQueryKey.detail(id as string | number)
-      // })
+      await queryClient.invalidateQueries({
+        queryKey: postQueryKey.detail(id as string | number)
+      })
       
 
       await revalidatePostList()
