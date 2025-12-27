@@ -162,8 +162,8 @@ export function PostCreate() {
         queryKey: adminPostQueryKey.lists(),
       });
 
-      await revalidatePostList();
-      toast.success('등록되었습니다.')
+      //await revalidatePostList();
+      await toast.success('등록되었습니다.')
       router.push('/admin/post')
     },
   });

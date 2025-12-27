@@ -5,6 +5,7 @@ import { adminPostQueryKey } from "@/utils/QueryKeyFactory";
 import { getPostsNoInfinity } from "@/features/main/api/getPosts";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function PostList() {
   const { data } = useQuery({
@@ -15,6 +16,11 @@ export function PostList() {
   console.log('PostList data:', data);
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+      <Button>
+        <Link href="/">
+          Home
+        </Link>
+      </Button>
       {data?.map((item) => (
         <Link href={`/admin/post/create/${item.id}`} key={item.id}>
           <Card className="overflow-hidden py-0">

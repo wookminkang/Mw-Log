@@ -34,7 +34,7 @@ import { getPostDetail } from "@/features/main/api/getPostDetail";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import { useAuthStore } from "@/stores";
-import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { postQueryKey, adminPostQueryKey } from "@/utils/QueryKeyFactory";
 import { useRouter } from "next/navigation";
 import { revalidatePostList } from "@/features/admin/api/serverActions"
 
@@ -104,14 +104,18 @@ export function PostDetail() {
       await queryClient.invalidateQueries({
         queryKey: postQueryKey.lists() 
       })
+      
+      await queryClient.invalidateQueries({
+        queryKey: adminPostQueryKey.lists() 
+      })
 
       await queryClient.invalidateQueries({
         queryKey: postQueryKey.detail(id as string | number)
       })
       
 
-      await revalidatePostList()
-      toast.success('수정되었습니다.')
+      //await revalidatePostList()
+      await toast.success('수정되었습니다.')
       router.push('/admin/post')
     }
   })
