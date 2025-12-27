@@ -10,6 +10,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Editor } from "@/components/common/DynamicEditor";
 import { metaFactory } from "@/utils/metaFactory";
 import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";
+import { useAuthStore } from "@/stores";
+import { PostEditButton } from "@/features/main/components/PostEditButton";
 
 
 // SEO 메타데이터 생성
@@ -34,7 +36,7 @@ export async function generateMetadata({
 
 
 async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
-  const { id } = await params;
+  const { id } = await params;  
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("topic")
@@ -67,6 +69,9 @@ async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
       {/* Back Button */}
       <div className="mb-8">
         <PostDetailsBack />
+
+        <PostEditButton />
+        
       </div>
 
       {/* Header Section */}

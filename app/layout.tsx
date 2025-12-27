@@ -2,6 +2,7 @@ import "@/app/globals.css";
 // import localFont from "next/font/local";
 // import type { Metadata } from "next";
 import Providers from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

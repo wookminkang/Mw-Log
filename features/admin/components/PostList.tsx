@@ -1,19 +1,21 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { adminPostQueryKey } from "@/utils/QueryKeyFactory";
 import { getPostsNoInfinity } from "@/features/main/api/getPosts";
 import dayjs from "dayjs";
 import Link from "next/link";
 
 export function PostList() {
   const { data } = useQuery({
-    queryKey: postQueryKey.lists(),
+    queryKey: adminPostQueryKey.lists(),
     queryFn: () => getPostsNoInfinity("archive"),
   });
+
+  console.log('PostList data:', data);
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-      {data.map((item) => (
+      {data?.map((item) => (
         <Link href={`/admin/post/create/${item.id}`} key={item.id}>
           <Card className="overflow-hidden py-0">
             {/* 썸네일 영역 */}

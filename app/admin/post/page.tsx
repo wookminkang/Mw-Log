@@ -1,12 +1,12 @@
 import { HydrationBoundary, dehydrate, QueryClient} from "@tanstack/react-query"
 import { PostList } from "@/features/admin/components/PostList"
-import { postQueryKey } from "@/utils/QueryKeyFactory"
+import { adminPostQueryKey } from "@/utils/QueryKeyFactory"
 import { getPostsNoInfinity } from "@/features/main/api/getPosts"
 export default async function AdminPostsPage () {
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
-    queryKey: postQueryKey.lists(),
+    queryKey: adminPostQueryKey.lists(),
     queryFn: () => getPostsNoInfinity("archive"),
   })
 

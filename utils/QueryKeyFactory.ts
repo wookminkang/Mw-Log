@@ -7,3 +7,10 @@ export const postQueryKey = {
 
 
 
+export const adminPostQueryKey = {
+  lists: () => ["AdminPosts", 'list'] as const,
+  list: (category: string) => [...adminPostQueryKey.lists(), category] as const,
+  detail: (id:string | number) => ["AdminPost", "detail", id] as const,
+}
+
+

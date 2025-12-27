@@ -70,7 +70,6 @@ export function PostDetail() {
 
   useEffect(() => {
     if (detailData) {
-      console.log("데이터 도착, 상태 업데이트:", detailData);
       setTitle(detailData.title);
       setIsView(detailData.isView);
       setCategory(detailData.category);
@@ -109,13 +108,14 @@ export function PostDetail() {
       await queryClient.invalidateQueries({
         queryKey: postQueryKey.detail(id as string | number)
       })
+      
+
+      await revalidatePostList()
       toast.success('수정되었습니다.')
-
-      revalidatePostList()
-
       router.push('/admin/post')
     }
   })
+
 
   const updatePost = async () => {
     /**

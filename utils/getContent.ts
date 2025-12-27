@@ -8,7 +8,7 @@ const getContent = (content: Block[]) => {
     if (Array.isArray(item.content)) {
       if (index < count) {
         item.content.forEach((content) => {
-          console.log(`content`, content);
+          // console.log(`content`, content);
           if (content.type === "text") {
             result += content.text;
           }

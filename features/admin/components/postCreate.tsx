@@ -31,9 +31,9 @@ import { Editor } from "@/components/common/DynamicEditor";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postQueryKey } from "@/utils/QueryKeyFactory";
+import { postQueryKey, adminPostQueryKey} from "@/utils/QueryKeyFactory";
 import { useRouter } from "next/navigation";
-import { revalidateMainPostList } from "@/features/admin/api/serverActions"
+import { revalidateMainPostList, revalidatePostList } from "@/features/admin/api/serverActions"
 
 export function PostCreate() {
   const queryClient = useQueryClient();
@@ -157,14 +157,14 @@ export function PostCreate() {
       await queryClient.invalidateQueries({
         queryKey: postQueryKey.lists(),
       });
-      
-      toast.success('수정되었습니다.')
 
-      //router.refresh();
-      await revalidateMainPostList()
+      await queryClient.invalidateQueries({
+        queryKey: adminPostQueryKey.lists(),
+      });
 
-      router.push('/')
-
+      await revalidatePostList();
+      toast.success('등록되었습니다.')
+      router.push('/admin/post')
     },
   });
 
