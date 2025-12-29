@@ -36,28 +36,25 @@ import { useParams } from "next/navigation";
 import { useAuthStore } from "@/stores";
 import { postQueryKey, adminPostQueryKey } from "@/utils/QueryKeyFactory";
 import { useRouter } from "next/navigation";
-import { revalidatePostList } from "@/features/admin/api/serverActions"
-
-
+import { revalidatePostList } from "@/features/admin/api/serverActions";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function PostDetail() {
   const router = useRouter();
-  const  { id } = useParams()
+  const { id } = useParams();
 
   const queryClient = useQueryClient();
-  
-  const { data:detailData } = useQuery({
-    queryKey:postQueryKey.detail(id as string | number),
-    queryFn: () => getDetailInfo()
+
+  const { data: detailData } = useQuery({
+    queryKey: postQueryKey.detail(id as string | number),
+    queryFn: () => getDetailInfo(),
   });
 
   const getDetailInfo = async () => {
     const data = await getPostDetail(id as string | number);
-    return data
-  }
-
+    return data;
+  };
 
   const [title, setTitle] = useState<string>("");
   const [isView, setIsView] = useState<boolean>(false);
@@ -66,27 +63,28 @@ export function PostDetail() {
   const [thumbnail, setThumbnail] = useState<File | string>("");
   const [contentPreview, setContentPreview] = useState<string>("");
 
-  const user = useAuthStore((state) => state.user)
+  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     if (detailData) {
       setTitle(detailData.title);
       setIsView(detailData.isView);
       setCategory(detailData.category);
-      
+
       try {
-          const parsedContent = typeof detailData.content === 'string' 
-              ? JSON.parse(detailData.content) 
-              : detailData.content;
-              
-          setContent(parsedContent);
-          setThumbnail(detailData.thumbnail);
-          setContentPreview(getContent(parsedContent));
+        const parsedContent =
+          typeof detailData.content === "string"
+            ? JSON.parse(detailData.content)
+            : detailData.content;
+
+        setContent(parsedContent);
+        setThumbnail(detailData.thumbnail);
+        setContentPreview(getContent(parsedContent));
       } catch (e) {
-          console.error("Content 파싱 에러", e);
+        console.error("Content 파싱 에러", e);
       }
     }
-  }, [detailData]); 
+  }, [detailData]);
 
   // 썸네일 이미지 버튼
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,49 +93,123 @@ export function PostDetail() {
     //const ext = e.target.files[0].name.split(" ").pop().split(".").pop()
   };
 
-  
-  
   const { mutate } = useMutation({
-    mutationFn:  () => updatePost(),
+    mutationFn: () => updatePost(),
     onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: postQueryKey.lists(),
+      });
 
       await queryClient.invalidateQueries({
-        queryKey: postQueryKey.lists() 
-      })
-      
-      await queryClient.invalidateQueries({
-        queryKey: adminPostQueryKey.lists() 
-      })
+        queryKey: adminPostQueryKey.lists(),
+      });
 
       await queryClient.invalidateQueries({
-        queryKey: postQueryKey.detail(id as string | number)
-      })
-      
+        queryKey: postQueryKey.detail(id as string | number),
+      });
 
-      await revalidatePostList()
-      await toast.success('수정되었습니다.')
-      router.push('/admin/post')
-    }
-  })
-
+      await revalidatePostList();
+      await toast.success("수정되었습니다.");
+      router.push("/admin/post");
+    },
+  });
 
   const updatePost = async () => {
+    // 1. 원본 state를 건드리지 않기 위해 깊은 복사 (선택 사항이지만 추천)
+    const finalContent = JSON.parse(JSON.stringify(content));
+
+    // 2. 이미지 블록만 찾아서 업로드 수행
+    // (filterContent 대신 전체 content를 순회하며 type이 image인 것만 처리하는 게 더 안전합니다)
+    await Promise.all(
+      finalContent.map(async (item: any) => {
+        // 이미지가 아니면 패스
+        if (item.type !== "image") return;
+
+        const src: string | undefined = item.props.url;
+
+        // URL이 없거나, 이미 서버 주소(http)인 경우 업로드 스킵
+        if (!src || !src.startsWith("blob:")) return;
+
+        try {
+          // 2-1) 실제 파일 데이터(Blob)로 변환
+          const res = await fetch(src);
+          const blob = await res.blob();
+
+          // 2-2) 확장자 결정
+          const fileExtFromName = item.props.name?.split(".").pop();
+          const fileExtFromMime = blob.type?.split("/")[1];
+          const fileExt = (
+            fileExtFromName ||
+            fileExtFromMime ||
+            "bin"
+          ).toLowerCase();
+
+          const fileName = `${nanoid()}.${fileExt}`;
+          const filePath = `topic/${fileName}`; // 폴더명 정리
+
+          // 2-3) Supabase Storage 업로드
+          const { error: uploadError } = await createClient()
+            .storage.from("files") // 버킷 이름 확인 ("files" -> "images"?)
+            .upload(filePath, blob, {
+              contentType: blob.type,
+              upsert: false,
+            });
+
+          if (uploadError) throw uploadError;
+
+          // 2-4) 공개 URL 생성
+          const { data: pub } = createClient()
+            .storage.from("files") // 버킷 이름 확인
+            .getPublicUrl(filePath);
+
+          const publicUrl = pub.publicUrl;
+
+          // 🔥 [가장 중요한 부분] blob 주소를 실제 서버 주소로 교체!!
+          item.props.url = publicUrl;
+
+          console.log("이미지 주소 교체 완료:", publicUrl);
+        } catch (error) {
+          console.error("이미지 업로드 중 실패:", error);
+          toast.error("일부 이미지 저장 실패");
+        }
+      })
+    );
+
+    // 3. 썸네일 처리 (기존 로직 유지)
+    let finalThumbnailUrl = thumbnail as string;
+    if (thumbnail instanceof File) {
+      // ... (기존 썸네일 업로드 로직, 필요시 여기에 작성) ...
+      // 썸네일 업로드는 위에서 만든 로직 활용 가능
+    }
+
     /**
-     * 수정 update
+     * 4. DB 업데이트
+     * 이제 finalContent에는 blob 주소가 아닌 진짜 주소가 들어있습니다.
      */
     const { data, error } = await createClient()
-    .from('topic')
-    .update({ title, content: JSON.stringify(content), content_preview:contentPreview, category, thumbnail, author: user?.id, status: "publish" })
-    .eq('id', id)
-    .select()
-  }
+      .from("topic")
+      .update({
+        title,
+        content: JSON.stringify(finalContent), // 👈 수정된 content 저장
+        content_preview: contentPreview,
+        category,
+        thumbnail: finalThumbnailUrl,
+        author: user?.id,
+        status: isView ? "publish" : "draft",
+      })
+      .eq("id", id)
+      .select();
 
-  const handleSubmit = async () => {
-    mutate()
+    if (error) {
+      console.error("Error updating post:", error);
+      toast.error("게시물 수정 실패.");
+      throw error;
+    }
   };
 
-
-
+  const handleSubmit = async () => {
+    mutate();
+  };
 
   return (
     <section>
