@@ -38,7 +38,7 @@ export default async function MainHome() {
       <Separator className="mb-10" />
 
       {/* Work Experience Section */}
-      <section className="mb-16">
+      <section className="mb-16 hidden">
         <article>
           <h2 className="flex items-center gap-2 mb-6 font-semibold text-xl">
             <span className="flex items-center justify-center w-3 h-3 bg-orange-500 rounded-full"></span>
