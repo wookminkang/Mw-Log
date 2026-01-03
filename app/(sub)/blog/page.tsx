@@ -45,7 +45,7 @@ export default function BlogPage() {
             경험들이 2026년의 밑거름이 될 것이라 믿는다.
           </p>
 
-          <h4 className="font-semibold">3. 2026년 목표: 100000억 벌기!</h4>
+          <h4 className="font-semibold">3. 2026년 목표: 1억 벌기!</h4>
           <p className="text-base text-foreground/65 mb-3.5">
             다가오는 2026년에는 AI를 단순히 '코딩 로봇'이 아니라, 내 비즈니스를
             실현할 강력한 무기로 사용해보려 한다. 1인 사업자 도전: 2026년에는 내
