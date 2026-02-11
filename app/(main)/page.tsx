@@ -1,16 +1,8 @@
 import { Separator } from "@/components/ui/separator";
 import { getPosts } from "@/features/main/api/getPosts";
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import dayjs from "dayjs";
-
-const PostLists = dynamic(
-  () => import("@/features/main/components/PostList").then((m) => m.PostLists),
-  {
-    loading: () => <div className="text-sm text-muted-foreground">목록 불러오는 중…</div>,
-    ssr: true,
-  }
-);
+import { PostLists } from "@/features/main/components/PostList";
 
 async function getBlogPosts() {
   const posts = await getPosts("archive", 0);
@@ -54,9 +46,7 @@ export default async function MainHome() {
       <section>
         <article>
 
-          <Suspense fallback={<div>Loading...</div>}>
-            <PostLists posts={postsForClient} />
-          </Suspense>
+          <PostLists posts={postsForClient} />
 
 
           {/* <HydrationBoundary state={dehydratedState}>
