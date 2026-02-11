@@ -1,8 +1,16 @@
-import { workExperience } from "@/features/main/api/getMyExperience";
 import { Separator } from "@/components/ui/separator";
 import { getPosts } from "@/features/main/api/getPosts";
-import { PostLists } from "@/features/main/components/PostList";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import dayjs from "dayjs";
+
+const PostLists = dynamic(
+  () => import("@/features/main/components/PostList").then((m) => m.PostLists),
+  {
+    loading: () => <div className="text-sm text-muted-foreground">목록 불러오는 중…</div>,
+    ssr: true,
+  }
+);
 
 async function getBlogPosts() {
   const posts = await getPosts("archive", 0);
@@ -11,7 +19,12 @@ async function getBlogPosts() {
 
 
 export default async function MainHome() {
-  const posts = await getBlogPosts(); 
+  const posts = await getBlogPosts();
+  const postsForClient =
+    posts?.map((p: any) => ({
+      ...p,
+      created_at_text: p?.created_at ? dayjs(p.created_at).format("YYYY. MM. DD") : "",
+    })) ?? [];
   return (
     <div className="mx-auto">
       {/* Header Section */}
@@ -30,37 +43,19 @@ export default async function MainHome() {
       {/* Divider */}
       <Separator className="mb-10" />
 
-      {/* Work Experience Section */}
+      {/* Work Experience Section (초기 렌더 최적화로 비활성화) */}
+      {/*
       <section className="mb-16 hidden">
-        <article>
-          <h2 className="flex items-center gap-2 mb-6 font-semibold text-xl">
-            <span className="flex items-center justify-center w-3 h-3 bg-orange-500 rounded-full"></span>
-            Experience
-          </h2>
-
-          <ul className="space-y-0">
-            {workExperience.map((work, index) => (
-              <li key={index} className="border-b border-border">
-                <div className="flex items-start justify-between py-3 gap-4">
-                  <div className="font-semibold text-foreground min-w-[140px]">
-                    {work.company}
-                  </div>
-                  <div className="text-muted-foreground text-sm flex-1 text-right">
-                    {work.title}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </article>
+        ...
       </section>
+      */}
 
       {/* Blog Posts Section */}
       <section>
         <article>
 
           <Suspense fallback={<div>Loading...</div>}>
-            <PostLists posts={posts} />
+            <PostLists posts={postsForClient} />
           </Suspense>
 
 
