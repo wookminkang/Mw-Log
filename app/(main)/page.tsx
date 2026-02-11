@@ -9,15 +9,27 @@ import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { getPosts } from "@/features/main/api/getPosts";
 import { PostLists } from "@/features/main/components/PostList";
 
-export default async function MainHome() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: postQueryKey.lists(),
-    queryFn: ({ pageParam }) => getPosts("archive", pageParam),
-    initialPageParam: 0,
-  });
 
-  const dehydratedState = dehydrate(queryClient);
+async function getBlogPosts() {
+  const posts = await getPosts("archive", 0);
+  return posts;
+}
+
+
+export default async function MainHome() {
+
+  const posts = await getBlogPosts(); 
+
+  // const queryClient = new QueryClient();
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: postQueryKey.lists(),
+  //   queryFn: ({ pageParam }) => getPosts("archive", pageParam),
+  //   initialPageParam: 0,
+  // });
+
+  // const dehydratedState = dehydrate(queryClient);
+
+
 
   return (
     <div className="mx-auto">
@@ -65,10 +77,15 @@ export default async function MainHome() {
       {/* Blog Posts Section */}
       <section>
         <article>
-          <HydrationBoundary state={dehydratedState}>
-            {/* <PostList category="archive" /> */}
+
+
+        <PostLists posts={posts} />
+
+
+          {/* <HydrationBoundary state={dehydratedState}>
+            <PostList category="archive" />
             <PostLists />
-          </HydrationBoundary>
+          </HydrationBoundary> */}
         </article>
       </section>
 

@@ -10,39 +10,39 @@ import dayjs from "dayjs";
 
 
 
-export function PostLists() {
-  const { ref, inView } = useInView({
-    threshold: 0, 
-  });
+export function PostLists({ posts }: { posts: any[] }) {
+  // const { ref, inView } = useInView({
+  //   threshold: 0, 
+  // });
 
 
-  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery({
-    queryKey: postQueryKey.lists(),
-    queryFn: ({ pageParam = 0 }) => getPosts('archive', pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (!lastPage || lastPage.length < 3) return undefined;
-      return lastPageParam + 1;
-    },
-    staleTime: 60 * 1000 * 5,
-    gcTime: 1000 * 60 * 10,
+  // const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery({
+  //   queryKey: postQueryKey.lists(),
+  //   queryFn: ({ pageParam = 0 }) => getPosts('archive', pageParam),
+  //   initialPageParam: 0,
+  //   getNextPageParam: (lastPage, allPages, lastPageParam) => {
+  //     if (!lastPage || lastPage.length < 3) return undefined;
+  //     return lastPageParam + 1;
+  //   },
+  //   staleTime: 60 * 1000 * 5,
+  //   gcTime: 1000 * 60 * 10,
     
-  });
+  // });
 
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView,fetchNextPage]);
+  // useEffect(() => {
+  //   if (inView) {
+  //     fetchNextPage();
+  //   }
+  // }, [inView,fetchNextPage]);
 
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error?.message}</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError) return <div>Error: {error?.message}</div>;
 
   return (
     <>
       {
-        data.pages.flat().map((item, index) => {
+        posts.map((item, index) => {
           return (
             <div key={item?.id}>
               <Link href={`/posts/${item?.id}`} className="block py-8 hover:opacity-80 transition-opacity">
@@ -103,9 +103,9 @@ export function PostLists() {
       }
 
       {/* 5. 무한스크롤 트리거 */}
-      <div ref={ref} className="flex justify-center items-center">
+      {/* <div ref={ref} className="flex justify-center items-center">
  
-      </div>
+      </div> */}
     </>
   )
 }
