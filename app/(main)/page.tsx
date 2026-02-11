@@ -59,9 +59,9 @@ export default async function MainHome() {
       <section>
         <article>
 
-        <Suspense fallback={<div>Loading...</div>}>
-          <PostLists posts={posts} />
-        </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <PostLists posts={posts} />
+          </Suspense>
 
 
           {/* <HydrationBoundary state={dehydratedState}>
