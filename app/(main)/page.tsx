@@ -1,11 +1,5 @@
-import {
-  HydrationBoundary,
-  dehydrate,
-  QueryClient,
-} from "@tanstack/react-query";
 import { workExperience } from "@/features/main/api/getMyExperience";
 import { Separator } from "@/components/ui/separator";
-import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { getPosts } from "@/features/main/api/getPosts";
 import { PostLists } from "@/features/main/components/PostList";
 import { Suspense } from "react";
@@ -17,20 +11,7 @@ async function getBlogPosts() {
 
 
 export default async function MainHome() {
-
   const posts = await getBlogPosts(); 
-
-  // const queryClient = new QueryClient();
-  // await queryClient.prefetchInfiniteQuery({
-  //   queryKey: postQueryKey.lists(),
-  //   queryFn: ({ pageParam }) => getPosts("archive", pageParam),
-  //   initialPageParam: 0,
-  // });
-
-  // const dehydratedState = dehydrate(queryClient);
-
-
-
   return (
     <div className="mx-auto">
       {/* Header Section */}

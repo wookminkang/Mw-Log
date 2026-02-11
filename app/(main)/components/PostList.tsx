@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
 import Link from "next/link";
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 
 type PostItem = {
   id: string;

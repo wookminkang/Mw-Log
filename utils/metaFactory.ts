@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/server/supabase.server";
+import { createServer } from "@/utils/supabase/server";
 
 type useMetaType = {
   getMeta: () => Promise<{
@@ -14,7 +14,7 @@ type useMetaType = {
 
 
 const hendlerTopic = async (id: string | number) => {
-  const supabase = await createClient();
+  const supabase = await createServer();
 
   console.log(`supabase`, supabase);
   return {

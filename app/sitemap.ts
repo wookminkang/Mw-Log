@@ -1,15 +1,15 @@
 // app/sitemap.ts
 
 import { MetadataRoute } from 'next';
-import { createClient } from '@/lib/server/supabase.server';
+import { createServer } from '@/utils/supabase/server';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   
-  const supabase = await createClient();
+  const supabase = await createServer();
   const { data: posts } = await supabase
     .from('topic')
     .select("*")
-    .eq('status', 'publish')
+    .eq('status', 'publish')  
     .eq('isView', true);
 
   

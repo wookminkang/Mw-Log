@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useAuthStore } from "@/stores"
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
+import { createClient } from "@/utils/supabase/client"
 import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { postQueryKey } from "@/utils/QueryKeyFactory";

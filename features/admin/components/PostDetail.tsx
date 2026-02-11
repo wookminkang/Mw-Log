@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { ImageUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AppEditor } from "@/components/common/AppEditor";

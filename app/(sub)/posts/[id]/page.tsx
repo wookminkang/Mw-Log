@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import type { POST_DETAIL_TYPE } from "@/types";
 
-import { createClient } from "@/lib/server/supabase.server";
+import { createServer } from "@/utils/supabase/server";
 import { Editor } from "@/components/common/DynamicEditor";
 import { metaFactory } from "@/utils/metaFactory";
 import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";
@@ -37,7 +37,7 @@ export async function generateMetadata({
 
 async function PostDetailPage({params}: {params: POST_DETAIL_TYPE}) {
   const { id } = await params;  
-  const supabase = await createClient();
+  const supabase = await createServer();
   const { data, error } = await supabase
     .from("topic")
     .select("*")
