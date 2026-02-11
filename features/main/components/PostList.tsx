@@ -2,7 +2,6 @@
 import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { getPosts } from "../api/getPosts";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import Image from "next/image";
 import Link from "next/link";
