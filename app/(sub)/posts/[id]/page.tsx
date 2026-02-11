@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import type { POST_DETAIL_TYPE } from "@/types";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/server/supabase.server";
 import { Editor } from "@/components/common/DynamicEditor";
 import { metaFactory } from "@/utils/metaFactory";
 import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";

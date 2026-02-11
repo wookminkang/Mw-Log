@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/server/supabase.server";
 
 type useMetaType = {
   getMeta: () => Promise<{

@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { getPosts } from "@/features/main/api/getPosts";
 import { PostLists } from "@/features/main/components/PostList";
-
+import { Suspense } from "react";
 
 async function getBlogPosts() {
   const posts = await getPosts("archive", 0);
@@ -78,8 +78,9 @@ export default async function MainHome() {
       <section>
         <article>
 
-
-        <PostLists posts={posts} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <PostLists posts={posts} />
+        </Suspense>
 
 
           {/* <HydrationBoundary state={dehydratedState}>

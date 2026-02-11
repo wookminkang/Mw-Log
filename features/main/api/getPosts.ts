@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/server/supabase.server';
 
 export async function getPosts(category?: string, pageParam: number = 0) {
   const LIMIT = 5;

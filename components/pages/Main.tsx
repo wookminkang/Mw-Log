@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/server/supabase.server";
 
 type Props = {
   category?: string;
