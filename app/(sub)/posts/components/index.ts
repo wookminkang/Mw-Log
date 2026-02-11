@@ -1,4 +1,3 @@
-import { PostList } from "./PostList";
-// import { PostCreate } from "./PostCreate";
-
-export { PostList };
+// (unused) re-exports for posts components
+// import { PostList } from "./PostList";
+// export { PostList };

@@ -1,56 +1,8 @@
-import { createClient } from "@/lib/server/supabase.server";
-
-type useMetaType = {
-  getMeta: () => Promise<{
-    title: string;
-    description: string;
-    keywords: string[];
-    authors: string
-    applicationName: string;
-    creator: string;
-  }>;
-}
-
-
-
-const hendlerTopic = async (id: string | number) => {
-  const supabase = await createClient();
-
-  console.log(`supabase`, supabase);
-  return {
-    getMeta: async () => {
-      const { data, error } = await supabase
-      .from("topic")
-      .select("*")
-      .eq("status", "publish")
-      .eq("id", id)
-      .eq("isView", true)
-     .single();
-
-      if (error) return console.log(`error`, error);
-      
-      return {
-        title : data.title,
-        description: data.title,
-        keywords: data.category,
-        applicationName: 'Mw Log',
-        authors: '돌멩이떼굴',
-        creator: '강민욱'
-      }
-    }
-  }
-}
-
-const hendlerProduct = (id: string | number) => {}
-
-const metaInit = {
-  'topic': hendlerTopic,
-  'product': hendlerProduct,
-}
-
-const useMeta = (tableName: string, id: string | number):useMetaType => {
-  return metaInit[tableName](id);
-}
-
-
-export {useMeta};
+// (unused) hooks/useMeta.ts — 전체 비활성화
+// import { createClient } from "@/utils/supabase/server";
+// type useMetaType = { getMeta: () => Promise<{ title: string; description: string; keywords: string[]; authors: string; applicationName: string; creator: string; }>; }
+// const hendlerTopic = async (id: string | number) => { /* ... */ }
+// const hendlerProduct = (id: string | number) => {}
+// const metaInit = { topic: hendlerTopic, product: hendlerProduct }
+// const useMeta = (tableName: string, id: string | number):useMetaType => metaInit[tableName](id);
+// export { useMeta };

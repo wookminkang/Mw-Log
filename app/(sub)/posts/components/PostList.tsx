@@ -1,5 +1,2 @@
-function PostList() {
-  return <></>;
-}
-
-export { PostList };
+// (unused) app/(sub)/posts/components/PostList.tsx
+// export function PostList() { return <></>; }
