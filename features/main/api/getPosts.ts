@@ -1,11 +1,11 @@
-import { createClient } from '@/lib/server/supabase.server';
+import { createServer } from '@/utils/supabase/server';
 
 export async function getPosts(category?: string, pageParam: number = 0) {
   const LIMIT = 5;
   const from = pageParam * LIMIT;
   const to = from + LIMIT - 1;
 
-  const supabase = await createClient();
+  const supabase = await createServer();
 
   let query = supabase
     .from("topic")
@@ -31,7 +31,7 @@ export async function getPosts(category?: string, pageParam: number = 0) {
 }
 
 export async function getPostsNoInfinity(category?: string) {
-  const supabase = await createClient();
+  const supabase = await createServer();
 
   let query = supabase
     .from("topic")
