@@ -4,19 +4,14 @@ import { Suspense } from "react";
 import dayjs from "dayjs";
 import { PostLists } from "@/features/main/components/PostList";
 
-async function getBlogPosts() {
-  const posts = await getPosts("archive", 0);
-  return posts;
-}
-
 
 export default async function MainHome() {
-  const posts = await getBlogPosts();
-  const postsForClient =
-    posts?.map((p: any) => ({
-      ...p,
-      created_at_text: p?.created_at ? dayjs(p.created_at).format("YYYY. MM. DD") : "",
-    })) ?? [];
+  const [posts] = await Promise.all([
+    getPosts('archive', 0),
+  ]);
+
+  console.log('posts', posts);
+
   return (
     <div className="mx-auto">
       {/* Header Section */}
@@ -46,7 +41,7 @@ export default async function MainHome() {
       <section>
         <article>
 
-          <PostLists posts={postsForClient} />
+          {/* <PostLists posts={postsForClient} /> */}
 
 
           {/* <HydrationBoundary state={dehydratedState}>

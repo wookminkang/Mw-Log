@@ -1,4 +1,5 @@
 import { createServer } from '@/utils/supabase/server';
+import { unstable_cache } from 'next/cache';
 
 export async function getPosts(category?: string, pageParam: number = 0) {
   const LIMIT = 5;
