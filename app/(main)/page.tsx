@@ -78,15 +78,16 @@ export default async function MainHome() {
                 {/* Right: Image */}
                 <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
                   {post?.thumbnail ? (
-                    <div className="relative h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
+                    <div className="relative flex items-center justify-center overflow-hidden h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
                       <Image
                         src={post.thumbnail}
                         alt={post.title || "Thumbnail"}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, 240px"
-                        loading={index < 2 ? "eager" : "lazy"}
-                        priority={index < 2}
+                        className="object-cover rounded-lg"                        
+                        loading={index < 15 ? "eager" : "lazy"}
+                        decoding="sync"
+                        quality={65}
+                        width={240}
+                        height={160}
                       />
                     </div>
                   ) : (
