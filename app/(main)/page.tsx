@@ -3,6 +3,8 @@ import { getPosts } from "@/features/main/api/getPosts";
 import { Suspense } from "react";
 import dayjs from "dayjs";
 import { PostLists } from "@/features/main/components/PostList";
+import Link from "next/link";
+import Image from "next/image";
 
 
 export default async function MainHome() {
@@ -40,6 +42,63 @@ export default async function MainHome() {
       {/* Blog Posts Section */}
       <section>
         <article>
+          <div className="space-y-0">
+            {
+              posts.map((post, index) => (
+                <div key={post.id}>
+                  <Link href={`/posts/${post.id}`}
+                    className="block py-8 hover:opacity-80 transition-opacity"
+                  >
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+                {/* Left: Text Content */}
+                <div className="flex-1 min-w-0 w-full md:w-auto">
+                  {/* Category Tag */}
+                  
+
+                  {/* Title */}
+                  <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
+                    {post?.title}
+                  </h3>
+
+                  {/* Description */}
+                  {post?.content_preview && (
+                    <p className="text-base text-foreground/65 leading-relaxed mb-3 line-clamp-2">
+                      {post?.content_preview}
+                    </p>
+                  )}
+
+                  {/* Date */}
+                  <p className="text-sm text-muted-foreground">
+                    {
+                      post?.created_at
+                    }
+                  </p>
+                </div>
+
+                {/* Right: Image */}
+                <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
+                  {post?.thumbnail ? (
+                    <div className="relative h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
+                      <Image
+                        src={post.thumbnail}
+                        alt={post.title || "Thumbnail"}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 240px"
+                        loading={index < 2 ? "eager" : "lazy"}
+                        priority={index < 2}
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full md:w-[240px] md:h-[180px] rounded-lg bg-muted"></div>
+                  )}
+                </div>
+              </div>
+                  </Link>
+                </div>
+              ))
+            }
+          </div>
 
           {/* <PostLists posts={postsForClient} /> */}
 
