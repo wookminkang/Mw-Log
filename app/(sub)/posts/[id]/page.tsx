@@ -120,10 +120,12 @@
 
 
 
-export default function PostDetailPage() {
+import { Detail } from "../components/Detail";
+
+export default async function PostDetailPage() {
   return (
     <>
-    <h1>PostDetailPage</h1>
+      <Detail />
     </>
   )
 }

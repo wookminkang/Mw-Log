@@ -1,19 +1,13 @@
 import { Separator } from "@/components/ui/separator";
 import { getPosts } from "@/features/main/api/getPosts";
 import { Suspense } from "react";
-import dayjs from "dayjs";
-import { PostLists } from "@/features/main/components/PostList";
 import Link from "next/link";
 import Image from "next/image";
+import { SkeletonPosts } from "./components/SkeletonPosts";
 
 
 export default async function MainHome() {
-  const [posts] = await Promise.all([
-    getPosts('archive', 0),
-  ]);
-
-  console.log('posts', posts);
-
+  const posts = await getPosts('archive', 0)
   return (
     <div className="mx-auto">
       {/* Header Section */}
@@ -31,18 +25,10 @@ export default async function MainHome() {
 
       {/* Divider */}
       <Separator className="mb-10" />
-
-      {/* Work Experience Section (초기 렌더 최적화로 비활성화) */}
-      {/*
-      <section className="mb-16 hidden">
-        ...
-      </section>
-      */}
-
-      {/* Blog Posts Section */}
       <section>
         <article>
           <div className="space-y-0">
+            <Suspense fallback={<SkeletonPosts />}>
             {
               posts.map((post, index) => (
                 <div key={post.id}>
@@ -78,16 +64,17 @@ export default async function MainHome() {
                 {/* Right: Image */}
                 <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
                   {post?.thumbnail ? (
-                    <div className="relative flex items-center justify-center overflow-hidden h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
+                    <div className="relative flex items-center justify-center overflow-hidden h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted ">
                       <Image
                         src={post.thumbnail}
                         alt={post.title || "Thumbnail"}
-                        className="object-cover rounded-lg"                        
+                        className="object-cover rounded-lg w-full h-full"                        
                         loading={index < 15 ? "eager" : "lazy"}
                         decoding="sync"
-                        quality={65}
+                        quality={100}
                         width={240}
                         height={160}
+                        sizes="100vw"
                       />
                     </div>
                   ) : (
@@ -99,6 +86,7 @@ export default async function MainHome() {
                 </div>
               ))
             }
+            </Suspense>
           </div>
 
           {/* <PostLists posts={postsForClient} /> */}
