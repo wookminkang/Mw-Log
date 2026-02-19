@@ -3,12 +3,14 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowLeft } from "lucide-react";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { createServer } from "@/utils/supabase/server";
 import { metaFactory } from "@/utils/metaFactory";
 import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";
 import { PostEditButton } from "@/features/main/components/PostEditButton";
 import { Detail } from "../components/Detail";
+import { SkeletonDetail } from "../components/Skeleton";
 import type { Block } from "@blocknote/core";
 
 export async function generateMetadata({
@@ -101,7 +103,9 @@ export default async function PostDetailPage({
 
       {/* Content Section */}
       <article className="prose prose-lg dark:prose-invert max-w-none">
-        {parsedContent && <Detail content={parsedContent} />}
+        <Suspense fallback={<SkeletonDetail />}>
+          {parsedContent && <Detail content={parsedContent} />}
+        </Suspense>
       </article>
 
       {/* Footer Separator */}
