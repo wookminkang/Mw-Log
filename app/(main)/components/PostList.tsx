@@ -7,6 +7,7 @@ import { TOPIC_CATEGORY } from "@/constans/ConstansCategory";
 import Link from "next/link";
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
+import { postQueryKey } from "@/utils/QueryKeyFactory";
 
 type PostItem = {
   id: string;
@@ -41,7 +42,7 @@ function PostList({ category }: PostListProps) {
     readonly unknown[],
     number
   >({
-    queryKey: ["posts-list", category],
+    queryKey: category ? postQueryKey.list(category) : postQueryKey.lists(),
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
       const from = pageParam as number;

@@ -1,20 +1,90 @@
 import { Separator } from "@/components/ui/separator";
 import { getPosts } from "@/features/main/api/getPosts";
-import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dayjs from "dayjs";
 import { SkeletonPosts } from "./components/SkeletonPosts";
+import { Suspense } from "react";
 
+async function PostsSection() {
+  const posts = await getPosts("archive", 0);
 
-export default async function MainHome() {
-  const posts = await getPosts('archive', 0)
+  return (
+    <div className="space-y-0">
+      {posts.map((post, index) => (
+        <div key={post.id}>
+          <Link
+            href={`/posts/${post.id}`}
+            className="block py-8 hover:opacity-80 transition-opacity"
+          >
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+              {/* Left: Text Content */}
+              <div className="flex-1 min-w-0 w-full md:w-auto">
+                {/* Category Tag */}
+                {post?.category && (
+                  <div className="mb-3">
+                    <span className="inline-block px-2.5 py-1 bg-orange-100 dark:bg-orange-900/30 text-foreground text-xs font-medium rounded-md">
+                      {post.category}
+                    </span>
+                  </div>
+                )}
+
+                {/* Title */}
+                <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
+                  {post?.title}
+                </h3>
+
+                {/* Description */}
+                {post?.content_preview && (
+                  <p className="text-base text-foreground/65 leading-relaxed mb-3 line-clamp-2">
+                    {post?.content_preview}
+                  </p>
+                )}
+
+                {/* Date */}
+                <p className="text-sm text-muted-foreground">
+                  {dayjs(post?.created_at).format("YYYY. MM. DD")}
+                </p>
+              </div>
+
+              {/* Right: Image */}
+              <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
+                {post?.thumbnail ? (
+                  <div className="relative h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted">
+                    <Image
+                      src={post.thumbnail}
+                      alt={post.title || "Thumbnail"}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="(max-width: 768px) 100vw, 240px"
+                      priority={index < 4}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full md:w-[240px] md:h-[180px] rounded-lg bg-muted" />
+                )}
+              </div>
+            </div>
+          </Link>
+
+          {/* Separator */}
+          {index < posts.length - 1 && (
+            <div className="border-b border-border" />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function MainHome() {
   return (
     <div className="mx-auto">
       {/* Header Section */}
       <section className="mb-10">
         <article>
           <h1 className="text-4xl font-bold mb-4 leading-tight">돌멩이,</h1>
-          <p className="text-base leading-relaxed text-foreground/80 ">
+          <p className="text-base leading-relaxed text-foreground/80">
             "늘 새로운 것을 탐구하고 분석하고, 일상 속 익숙해진 불편함을
             해결하는 데 집중하면서 내 맘대로 작업물을 업로드하고 있습니다. 이
             페이지는 개인 작업과 기술 실험을 모아 둔 포트폴리오이자
@@ -25,77 +95,12 @@ export default async function MainHome() {
 
       {/* Divider */}
       <Separator className="mb-10" />
+
       <section>
         <article>
-          <div className="space-y-0">
-            <Suspense fallback={<SkeletonPosts />}>
-            {
-              posts.map((post, index) => (
-                <div key={post.id}>
-                  <Link href={`/posts/${post.id}`}
-                    className="block py-8 hover:opacity-80 transition-opacity"
-                  >
-                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
-                {/* Left: Text Content */}
-                <div className="flex-1 min-w-0 w-full md:w-auto">
-                  {/* Category Tag */}
-                  
-
-                  {/* Title */}
-                  <h3 className="text-2xl md:text-2xl font-bold tracking-tight mb-3 line-clamp-2 leading-tight">
-                    {post?.title}
-                  </h3>
-
-                  {/* Description */}
-                  {post?.content_preview && (
-                    <p className="text-base text-foreground/65 leading-relaxed mb-3 line-clamp-2">
-                      {post?.content_preview}
-                    </p>
-                  )}
-
-                  {/* Date */}
-                  <p className="text-sm text-muted-foreground">
-                    {
-                      post?.created_at
-                    }
-                  </p>
-                </div>
-
-                {/* Right: Image */}
-                <div className="w-full md:w-[240px] md:h-[160px] shrink-0">
-                  {post?.thumbnail ? (
-                    <div className="relative flex items-center justify-center overflow-hidden h-[190px] md:w-[240px] md:h-[160px] rounded-lg bg-muted ">
-                      <Image
-                        src={post.thumbnail}
-                        alt={post.title || "Thumbnail"}
-                        className="object-cover rounded-lg w-full h-full"                        
-                        loading={index < 15 ? "eager" : "lazy"}
-                        decoding="sync"
-                        quality={100}
-                        width={240}
-                        height={160}
-                        sizes="100vw"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-full md:w-[240px] md:h-[180px] rounded-lg bg-muted"></div>
-                  )}
-                </div>
-              </div>
-                  </Link>
-                </div>
-              ))
-            }
-            </Suspense>
-          </div>
-
-          {/* <PostLists posts={postsForClient} /> */}
-
-
-          {/* <HydrationBoundary state={dehydratedState}>
-            <PostList category="archive" />
-            <PostLists />
-          </HydrationBoundary> */}
+          <Suspense fallback={<SkeletonPosts />}>
+            <PostsSection />
+          </Suspense>
         </article>
       </section>
 

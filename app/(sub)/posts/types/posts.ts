@@ -1,7 +1,7 @@
-type POST_TYPE<T> = {
+export type POST_TYPE<T = unknown> = {
   title: string;
   content?: T;
-  cafegory?: string;
+  category?: string;
   thumbnail?: string;
   status: string;
   project?: string;

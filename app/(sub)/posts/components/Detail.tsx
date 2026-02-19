@@ -1,28 +1,16 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { getPostDetail } from "@/features/main/api/getPostDetail";
-import { SkeletonDetail } from "./Skeleton";
 import { Editor } from "@/components/common/DynamicEditor";
-import { Block } from "@blocknote/core";
+import type { Block } from "@blocknote/core";
 
+type DetailProps = {
+  content: Block[];
+};
 
-
-export function Detail() {
-  const { id } = useParams() ;
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["post", id],
-    queryFn: () => getPostDetail(id as string | number),
-  });
-
-  if (isLoading) return <SkeletonDetail />;
-
-  
+export function Detail({ content }: DetailProps) {
   return (
-    <>
-      <Editor content={JSON.parse(data?.content as string) as Block[]} readonly={true} />
-    </>
-  )
+    <article>
+      <Editor content={content} readonly={true} />
+    </article>
+  );
 }

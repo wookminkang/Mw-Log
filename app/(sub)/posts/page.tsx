@@ -1,5 +1,5 @@
-function PostListPage() {
-  return <>PostListPage</>;
-}
+import { PostList } from "@/app/(main)/components/PostList";
 
-export default PostListPage;
+export default function PostListPage() {
+  return <PostList />;
+}
