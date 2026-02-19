@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { adminPostQueryKey } from "@/utils/QueryKeyFactory";
-import { getPostsNoInfinity } from "@/features/main/api/getPosts";
+import { createClient } from "@/utils/supabase/client";
 import dayjs from "dayjs";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,16 @@ import { Button } from "@/components/ui/button";
 export function PostList() {
   const { data, isLoading } = useQuery({
     queryKey: adminPostQueryKey.lists(),
-    queryFn: () => getPostsNoInfinity("archive"),
+    queryFn: async () => {
+      const { data, error } = await createClient()
+        .from("topic")
+        .select("*")
+        .eq("status", "publish")
+        .eq("isView", true)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
   });
 
   if (isLoading) {
