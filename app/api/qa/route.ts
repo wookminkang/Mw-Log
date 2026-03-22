@@ -1,9 +1,7 @@
 import OpenAI from "openai";
 import { NextRequest } from "next/server";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+export const dynamic = "force-dynamic";
 
 const SYSTEM_PROMPT = `당신은 React와 프론트엔드 개발 전문가입니다.
 
@@ -28,6 +26,8 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     const stream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
