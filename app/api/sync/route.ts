@@ -11,7 +11,6 @@ export async function POST() {
       { status: 500 }
     );
   }
-
   try {
     // GitHub API 호출: Repository Dispatch 이벤트 발생
     const response = await fetch(

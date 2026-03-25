@@ -4,6 +4,16 @@ export type WORK_EXPERIENCE_TYPE = {
   title: string;
 }
 
+// 포스트 목록 아이템 타입 (공유)
+export type PostItem = {
+  id: string;
+  title: string;
+  content_preview?: string;
+  thumbnail?: string;
+  category?: string;
+  created_at: string;
+}
+
 
 // 포스트 타입 정의
 export type POST_TYPE = {

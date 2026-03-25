@@ -35,7 +35,7 @@ export function SearchModal() {
   if (!isSearchState) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-white backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-[100] bg-background backdrop-blur-sm overflow-y-auto">
       <div className="max-w-4xl mx-auto px-4 pt-8">
         {/* 1. 닫기 버튼 */}
         <div className="flex justify-end mb-8">
@@ -51,7 +51,7 @@ export function SearchModal() {
         </div>
 
         {/* 2. 검색어 입력 */}
-        <div className="relative border-b-4 border-black pb-2 mb-12">
+        <div className="relative border-b-4 border-foreground pb-2 mb-12">
           <input
             type="text"
             placeholder="검색어를 입력해주세요"

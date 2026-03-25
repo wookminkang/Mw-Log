@@ -1,36 +1,50 @@
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft } from "lucide-react";
-import dayjs from "dayjs";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { Separator } from "@/components/ui/separator";
+import dayjs from "dayjs";
+import type { Metadata } from "next";
+import type { Block } from "@blocknote/core";
 
-import { createServer } from "@/utils/supabase/server";
-import { metaFactory } from "@/utils/metaFactory";
+import { createClient } from "@/utils/supabase/client";
+import { getPostById } from "@/features/main/api/getPostById";
+import { buildPostMetadata } from "@/utils/metaFactory";
 import { PostDetailsBack } from "@/features/main/components/PostDetailsBack";
 import { PostEditButton } from "@/features/main/components/PostEditButton";
 import { Detail } from "../components/Detail";
 import { SkeletonDetail } from "../components/Skeleton";
-import type { Block } from "@blocknote/core";
 
+// ISR: 5분마다 재생성 — 글 내용은 자주 바뀌지 않음
+export const revalidate = 300;
+
+/**
+ * 빌드 시 공개된 모든 포스트를 정적으로 프리렌더링(SSG + ISR)
+ * 없는 id는 런타임에 on-demand 생성
+ */
+export async function generateStaticParams() {
+  // 빌드 타임 실행 → request context 없음 → cookies() 불가
+  // anon key만으로 동작하는 브라우저 클라이언트 사용
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("topic")
+    .select("id")
+    .eq("status", "publish")
+    .eq("isView", true);
+
+  return (data ?? []).map(({ id }) => ({ id: String(id) }));
+}
+
+/**
+ * React.cache로 dedup → generateMetadata & 페이지 컴포넌트 모두 이 함수를 호출해도
+ * 같은 요청 내에서 DB는 단 1회만 조회됩니다.
+ */
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
+}): Promise<Metadata> {
   const { id } = await params;
-  const metaInfo = await metaFactory("topic", id);
-  const { title, description, keywords, authors, applicationName, creator } =
-    await metaInfo.getMeta();
-
-  return {
-    title,
-    description,
-    keywords,
-    authors,
-    applicationName,
-    creator,
-  };
+  const post = await getPostById(id);
+  return buildPostMetadata(post);
 }
 
 export default async function PostDetailPage({
@@ -39,79 +53,52 @@ export default async function PostDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createServer();
+  const post = await getPostById(id); // 캐시 히트 — 추가 DB 호출 없음
 
-  const { data, error } = await supabase
-    .from("topic")
-    .select("*")
-    .eq("status", "publish")
-    .eq("id", id)
-    .eq("isView", true)
-    .single();
+  if (!post) notFound();
 
-  if (error || !data) {
-    return (
-      <div className="max-w-3xl mx-auto py-12 px-6">
-        <div className="text-center py-16">
-          <h1 className="text-2xl font-bold mb-4">포스트를 찾을 수 없습니다</h1>
-          <p className="text-muted-foreground mb-6">
-            요청하신 포스트가 존재하지 않거나 삭제되었습니다.
-          </p>
-          <Link href="/">
-            <Button variant="outline">홈으로 돌아가기</Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const parsedContent = data.content
-    ? (JSON.parse(data.content) as Block[])
+  const parsedContent = post.content
+    ? (JSON.parse(post.content) as Block[])
     : null;
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* Back Button & Edit/Delete Buttons */}
+      {/* 상단: 뒤로가기 + 수정/삭제 버튼 */}
       <div className="mb-8 flex items-center justify-between">
         <PostDetailsBack />
         <PostEditButton />
       </div>
 
-      {/* Header Section */}
+      {/* 헤더 */}
       <header className="mb-10">
-        {/* Category Tag */}
         <div className="mb-4">
           <span className="inline-block px-2.5 py-1 bg-orange-100 dark:bg-orange-900/30 text-foreground text-sm font-medium rounded-md">
-            {data.category}
+            {post.category}
           </span>
         </div>
 
-        {/* Title */}
         <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 leading-tight">
-          {data.title}
+          {post.title}
         </h1>
 
-        {/* Meta Info */}
         <div className="flex items-center gap-4 text-xl text-muted-foreground font-semibold">
-          <time dateTime={data.created_at}>
-            {dayjs(data.created_at).format("YYYY. MM. DD")}
+          <time dateTime={post.created_at}>
+            {dayjs(post.created_at).format("YYYY. MM. DD")}
           </time>
         </div>
       </header>
 
       <Separator className="mb-10" />
 
-      {/* Content Section */}
+      {/* 본문 */}
       <article className="prose prose-lg dark:prose-invert max-w-none">
         <Suspense fallback={<SkeletonDetail />}>
           {parsedContent && <Detail content={parsedContent} />}
         </Suspense>
       </article>
 
-      {/* Footer Separator */}
       <Separator className="mt-16 mb-8" />
 
-      {/* Navigation Footer */}
       <footer className="flex justify-between items-center text-sm text-muted-foreground">
         <PostDetailsBack />
       </footer>

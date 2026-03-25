@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
 import { toast } from "sonner"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { postQueryKey } from "@/utils/QueryKeyFactory";
 import { revalidatePostList } from "@/features/admin/api/serverActions"
 import { useRouter } from "next/navigation";
@@ -15,8 +15,6 @@ export function PostEditButton () {
   const router = useRouter()
   const { id:postId } = useParams()
   const { id } = useAuthStore(state => state.user)
-  console.log(`id`, id)
-  console.log(`postId`, postId)
 
   const supabase = createClient()
 

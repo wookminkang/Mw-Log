@@ -44,7 +44,6 @@ function LoginForm() {
   const setUser = useAuthStore((state) => state.setUser);
 
   const onSubmit = async (data: LoginSchema) => {
-    console.log("로그인 버튼 클릭!");
     try {
       const {
         data: { user, session },
@@ -74,16 +73,14 @@ function LoginForm() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google Login");
-  };
+  const handleGoogleLogin = () => {};
 
   return (
     <>
       <div className="w-100 max-w-100 flex flex-col px-6 gap-6">
         <div className="flex flex-col">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            회원가입
+            로그인
           </h4>
           <p className="text-muted-foreground">
             로그인을 위한 정보를 입력해주세요.
@@ -105,7 +102,7 @@ function LoginForm() {
               <span className="w-full border-t"></span>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-2 text-muted-foreground bg-black uppercase">
+              <span className="px-2 text-muted-foreground bg-background uppercase">
                 OR CONTINUE WITH
               </span>
             </div>
@@ -147,7 +144,7 @@ function LoginForm() {
                 <Button
                   type="submit"
                   variant={"outline"}
-                  className="!bg-primary hover:!bg-primary/80 flex-1 cursor-pointer "
+                  className="bg-primary! hover:bg-primary/80! flex-1 cursor-pointer"
                 >
                   로그인
                 </Button>

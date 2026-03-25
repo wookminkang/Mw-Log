@@ -1,5 +1,5 @@
 "use client"
-import { CLASS_CATEGORY } from "@/constans/ConstansCategory"
+import { TOPIC_CATEGORY } from "@/constans/ConstansCategory"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
@@ -39,7 +39,7 @@ function AppSidebar() {
           isExpanded ? "block" : "hidden"
         } lg:block`}
       >
-        {CLASS_CATEGORY.map((menu) => {
+        {TOPIC_CATEGORY.map((menu) => {
           return (
             <Link key={menu.id} href={`/?category=${menu.category}`}>
               <li>
