@@ -156,56 +156,284 @@
   padding-bottom: 80px;
 }
 
+/* ───────────────────────────────────────────
+   BlockNote Editor — Base
+─────────────────────────────────────────── */
+
+.mw-editor,
+.mw-editor * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+
 .page > .container .bn-editor {
   background-color: transparent !important;
   padding: 24px 16px !important;
 }
-.bn-container .mw-editor {
-  padding: 0 !important;
-}
 
+.bn-container .mw-editor,
 .bn-container .bn-editor {
   padding: 0 !important;
-}
-
-.bn-editor pre,
-.bn-editor code,
-.bn-editor [data-content-type="codeBlock"] {
-  background-color: #f9f9f9 !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
-}
-.bn-editor [data-content-type="codeBlock"] {
-  padding: 0 !important;
-  color: #222222;
-}
-
-/* BlockNote 에디터 코드블록 - macOS(Apple) 스타일 */
-.bn-editor [data-content-type="codeBlock"] {
-  position: relative;
-  background-color: #f8f9fa !important;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-  overflow: auto;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.bn-editor [data-content-type="codeBlock"] code {
-  color: #222222;
 }
 
 .bn-editor .ProseMirror {
   color: inherit;
 }
 
+/* ───────────────────────────────────────────
+   Typography — Headings
+─────────────────────────────────────────── */
 
-.mw-editor{
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+.bn-editor h1 {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  color: #0f172a !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.35rem !important;
+  padding-bottom: 0.4rem !important;
+  border-bottom: 2px solid #e2e8f0 !important;
 }
-.mw-editor *{
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+
+.bn-editor h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.015em !important;
+  color: #1e293b !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.bn-editor h3 {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  color: #334155 !important;
+  margin-top: 0.4rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+/* ───────────────────────────────────────────
+   Typography — Paragraphs & Inline
+─────────────────────────────────────────── */
+
+.bn-editor [data-content-type="paragraph"] {
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+  color: #374151 !important;
+  letter-spacing: 0.01em !important;
+  margin-bottom: 0 !important;
+}
+
+/* Inline code */
+.bn-editor code:not(pre code) {
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, monospace !important;
+  font-size: 0.85em !important;
+  background-color: #f1f5f9 !important;
+  color: #e11d48 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  padding: 0.15em 0.45em !important;
+}
+
+/* Bold */
+.bn-editor strong {
+  font-weight: 700 !important;
+  color: #1e293b !important;
+}
+
+/* Italic */
+.bn-editor em {
+  color: #475569 !important;
+}
+
+/* Links */
+.bn-editor a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  text-decoration-thickness: 1px !important;
+  transition: color 0.15s ease !important;
+}
+.bn-editor a:hover {
+  color: #1d4ed8 !important;
+  text-decoration-thickness: 2px !important;
+}
+
+/* ───────────────────────────────────────────
+   Code Block — macOS Terminal 스타일
+─────────────────────────────────────────── */
+
+.bn-editor [data-content-type="codeBlock"] {
+  position: relative !important;
+  background-color: #1e2433 !important;
+  border: 1px solid #2d3748 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden !important;
+  margin: 0.4rem 0 !important;
+  padding-top: 36px !important;
+}
+
+/* macOS 헤더 바 */
+.bn-editor [data-content-type="codeBlock"]::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 36px !important;
+  background-color: #2d3748 !important;
+  border-bottom: 1px solid #374151 !important;
+}
+
+/* macOS 신호등 버튼 — box-shadow로 정확히 3개 */
+.bn-editor [data-content-type="codeBlock"]::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 13px !important;
+  left: 14px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: #ff5f57 !important;
+  box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840 !important;
+}
+
+.bn-editor [data-content-type="codeBlock"] pre,
+.bn-editor [data-content-type="codeBlock"] code {
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace !important;
+  font-size: 13.5px !important;
+  line-height: 1.7 !important;
+  background-color: transparent !important;
+  color: #e2e8f0 !important;
+  padding: 16px 20px !important;
+  margin: 0 !important;
+  border: none !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+}
+
+/* ───────────────────────────────────────────
+   Blockquote
+─────────────────────────────────────────── */
+
+.bn-editor [data-content-type="blockquote"],
+.bn-editor blockquote {
+  border-left: 4px solid #6366f1 !important;
+  background: linear-gradient(to right, #f5f3ff, transparent) !important;
+  border-radius: 0 8px 8px 0 !important;
+  margin: 0.3rem 0 !important;
+  padding: 10px 16px !important;
+  color: #4b5563 !important;
+  font-style: italic !important;
+  font-size: 0.975rem !important;
+  line-height: 1.8 !important;
+}
+
+/* ───────────────────────────────────────────
+   Lists
+─────────────────────────────────────────── */
+
+.bn-editor [data-content-type="bulletListItem"],
+.bn-editor [data-content-type="numberedListItem"] {
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+  color: #374151 !important;
+  padding-left: 4px !important;
+}
+
+.bn-editor ul,
+.bn-editor ol {
+  padding-left: 1.5rem !important;
+  margin: 0.5rem 0 !important;
+}
+
+.bn-editor li + li {
+  margin-top: 0.3rem !important;
+}
+
+.bn-editor li::marker {
+  color: #6366f1 !important;
+  font-weight: 600 !important;
+}
+
+/* ───────────────────────────────────────────
+   Images
+─────────────────────────────────────────── */
+
+.bn-editor [data-content-type="image"] img,
+.bn-editor img {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
+  max-width: 100% !important;
+  margin: 0.75rem 0 !important;
+}
+
+/* ───────────────────────────────────────────
+   Table
+─────────────────────────────────────────── */
+
+.bn-editor table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  font-size: 0.9rem !important;
+  margin: 1rem 0 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.bn-editor th {
+  background-color: #f8fafc !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  padding: 10px 16px !important;
+  text-align: left !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.bn-editor td {
+  padding: 9px 16px !important;
+  color: #374151 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.bn-editor tr:last-child td {
+  border-bottom: none !important;
+}
+
+.bn-editor tr:hover td {
+  background-color: #fafafa !important;
+}
+
+/* ───────────────────────────────────────────
+   Horizontal Rule
+─────────────────────────────────────────── */
+
+.bn-editor hr {
+  border: none !important;
+  height: 2px !important;
+  background: linear-gradient(to right, transparent, #e2e8f0, transparent) !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* ───────────────────────────────────────────
+   Toolbar & Menu 개선
+─────────────────────────────────────────── */
+
+.bn-toolbar {
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid #e2e8f0 !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.bn-slash-menu {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid #e2e8f0 !important;
 }
