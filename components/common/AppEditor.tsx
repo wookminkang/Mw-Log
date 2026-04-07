@@ -5,9 +5,22 @@ import "@blocknote/mantine/style.css";
 import type { Theme } from "@blocknote/mantine";
 
 import { ko } from "@blocknote/core/locales";
-import type { Block } from "@blocknote/core";
+import {
+  BlockNoteSchema,
+  defaultBlockSpecs,
+  createCodeBlockSpec,
+  type Block,
+} from "@blocknote/core";
+import { codeBlockOptions } from "@blocknote/code-block";
 import { nanoid } from "nanoid";
 import { useEffect, useRef } from "react";
+
+const schema = BlockNoteSchema.create({
+  blockSpecs: {
+    ...defaultBlockSpecs,
+    codeBlock: createCodeBlockSpec(codeBlockOptions),
+  },
+});
 
 interface Props {
   content?: Block[];
@@ -19,6 +32,7 @@ function AppEditor({ content, setContent, readonly }: Props) {
   const pendingFilesRef = useRef<Map<string, File>>(new Map());
   // Create a new editor instance
   const editor = useCreateBlockNote({
+    schema,
     initialContent:
       content && content.length > 0
         ? content
@@ -116,7 +130,7 @@ function AppEditor({ content, setContent, readonly }: Props) {
 
   // Render the editor
   return (
-    <div className="mw-editor">
+    <div className={`mw-editor${readonly ? " mw-editor--readonly" : ""}`}>
       <BlockNoteView
         editor={editor}
         editable={!readonly}
